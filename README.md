@@ -1,1 +1,1 @@
-speed tools fragment add app
+Rapid plug-in development
