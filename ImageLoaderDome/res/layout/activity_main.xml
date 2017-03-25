@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+    
+    <Button 
+        android:id="@+id/one"
+        android:text="正常"
+        android:onClick="mClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button 
+        android:layout_below="@+id/one"
+        android:id="@+id/two"
+        android:onClick="mClick"
+        android:text="圆形"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button 
+        android:layout_below="@+id/two"
+        android:id="@+id/three"
+        android:text="圆角"
+        android:onClick="mClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+    <Button 
+        android:layout_below="@+id/three"
+        android:id="@+id/four"
+        android:text="设置宽度"
+        android:onClick="mClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ListView 
+        android:layout_below="@+id/four"
+        android:id="@+id/show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
