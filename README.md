@@ -1,1 +1,1 @@
-Rapid plug-in development
+基于fragment插件化框架 
