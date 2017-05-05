@@ -1,0 +1,1 @@
+include ':YinLianPay', ':HostDome', ':ClientDome', ':SpeedFragmentHotPatch'
