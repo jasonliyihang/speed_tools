@@ -15,7 +15,7 @@ import dalvik.system.DexClassLoader;
 public class SpeedApkHelper {
 
     public static final String TAG ="SpeedApkHelper";
-    public static final String ROOT_FRAGMENT_NAME="root_fragment";
+    public static final String ROOT_FRAGMENT_NAME="root_class";
 
     private String apkPath;
     private Context ctx;
@@ -41,16 +41,16 @@ public class SpeedApkHelper {
 
     }
 
-    public Fragment getFragmentById(String keyName){
-        Fragment fragment=null;
+    public Class<?> getClassById(String keyName){
+        Class<?> aClass =null;
         try {
             String string = packageInfo.applicationInfo.metaData.getString(keyName);
-            fragment = (Fragment) dexClassLoader.loadClass(string).newInstance();
+            aClass = dexClassLoader.loadClass(string);
         } catch (Exception e) {
             e.printStackTrace();
             Log.i(TAG,""+e.getMessage());
         }
-        return fragment;
+        return aClass;
     }
 
     public PackageInfo getPackageInfo() {

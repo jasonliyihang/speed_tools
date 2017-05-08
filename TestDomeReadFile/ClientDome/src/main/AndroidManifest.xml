@@ -10,12 +10,8 @@
         android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="root_fragment"
-            android:value="com.example.clientdome.TestFragment" />
-
-        <meta-data
-            android:name="other_fragment"
-            android:value="com.example.clientdome.OtherFragment" />
+            android:name="root_class"
+            android:value="com.example.clientdome.TestClass" />
 
         <activity android:name=".ClientMainActivity">
             <intent-filter>

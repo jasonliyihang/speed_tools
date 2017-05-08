@@ -1,16 +1,12 @@
 package com.example.clientdome;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import com.speed.hotpatch.libs.SpeedBaseInterface;
+import com.speed.hotpatch.libs.SpeedClientBaseActivity;
 
-public class ClientMainActivity extends AppCompatActivity {
+public class ClientMainActivity extends SpeedClientBaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_main);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new OtherFragment()).commit();
+    public SpeedBaseInterface getProxyBase() {
+        return new TestClass();
     }
-
-
 }

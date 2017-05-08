@@ -3,7 +3,6 @@ package com.speed.hotpatch.libs;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.support.v4.app.FragmentManager;
 import android.widget.LinearLayout;
 
 /**
@@ -11,15 +10,11 @@ import android.widget.LinearLayout;
  */
 public class SpeedHostActivityHelper {
 
-    private SpeedApkManager apkManager;
-    private SpeedApkHelper apkHelper;
     private Activity activity;
-    private FragmentManager fragmentManager;
+    private SpeedApkHelper apkHelper;
 
-    public SpeedHostActivityHelper(Activity activity, SpeedApkManager apkManager, FragmentManager fragmentManager) {
-        this.apkManager=apkManager;
+    public SpeedHostActivityHelper(Activity activity) {
         this.activity = activity;
-        this.fragmentManager=fragmentManager;
 
         LinearLayout linearLayout = new LinearLayout(activity);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -34,13 +29,25 @@ public class SpeedHostActivityHelper {
         return false;
     }
 
-    public void replaceFragment(String keyName, String fragmentTag){
-        if (fragmentTag==null)
+    public Class<?> getProxy(String keyName, String classTag){
+        if (classTag==null)
         {
-            fragmentTag=SpeedApkHelper.ROOT_FRAGMENT_NAME;
+            classTag=SpeedApkHelper.ROOT_FRAGMENT_NAME;
         }
         apkHelper = SpeedApkManager.getInstance().getHelper(keyName);
-        fragmentManager.beginTransaction().replace(android.R.id.primary, apkHelper.getFragmentById(fragmentTag)).commit();
+        Class<?> classById = apkHelper.getClassById(classTag);
+        return classById;
+    }
+
+    public SpeedBaseInterface getBaserProxy(String keyName, String classTag){
+        Class<?> proxy = getProxy(keyName, classTag);
+        SpeedBaseInterface o =null;
+        try {
+            o = (SpeedBaseInterface) proxy.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 
     public Resources getResources(){
