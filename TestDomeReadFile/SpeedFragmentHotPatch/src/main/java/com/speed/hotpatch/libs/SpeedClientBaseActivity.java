@@ -1,5 +1,6 @@
 package com.speed.hotpatch.libs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -56,4 +57,15 @@ public abstract class SpeedClientBaseActivity extends AppCompatActivity {
         proxyClass.onRestart();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        proxyClass.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        proxyClass.onActivityResult(requestCode,resultCode,data);
+    }
 }

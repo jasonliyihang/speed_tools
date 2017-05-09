@@ -2,28 +2,23 @@ package com.speed.hotpatch.libs;
 
 import android.content.Context;
 
-import java.util.HashMap;
-
 /**
  * Created by user on 2017/5/4.
  */
 public class SpeedApkManager {
 
-    private HashMap<String, SpeedApkHelper> apkHelperHashMap;
+    private static SpeedApkManager instance = null;
+    private SpeedApkManagerInterface apkManagerInterface;
 
-    private static SpeedApkManager instance=null;
-
-    private SpeedApkManager(){
-        apkHelperHashMap=new HashMap<>();
+    private SpeedApkManager() {
+        apkManagerInterface = (SpeedApkManagerInterface) new SpeedInvocationHandler().bind(SpeedApkManagerInterface.class);
+        apkManagerInterface.init();
     }
 
-    public static SpeedApkManager getInstance(){
-        if (instance==null)
-        {
-            synchronized (SpeedApkManager.class)
-            {
-                if (instance==null)
-                {
+    public static SpeedApkManager getInstance() {
+        if (instance == null) {
+            synchronized (SpeedApkManager.class) {
+                if (instance == null) {
                     instance = new SpeedApkManager();
                 }
             }
@@ -31,16 +26,13 @@ public class SpeedApkManager {
         return instance;
     }
 
-    public void loadApk(String keyName, String apkPath, String dexOutPath, Context context){
-        SpeedApkHelper speedApkHelper = new SpeedApkHelper(apkPath, dexOutPath, context);
-        apkHelperHashMap.put(keyName, speedApkHelper);
+    public void loadApk(String keyName, String apkPath, String dexOutPath, Context context) {
+        apkManagerInterface.load(keyName,apkPath,dexOutPath,context);
     }
 
-    public SpeedApkHelper getHelper(String keyName){
-        return apkHelperHashMap.get(keyName);
+    public SpeedApkHelper getHelper(String keyName) {
+        return apkManagerInterface.get(keyName);
     }
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.speed.hotpatch.libs;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -21,5 +22,9 @@ public interface SpeedBaseInterface {
     void onStop();
 
     void onRestart();
+
+    void onNewIntent(Intent intent);
+
+    void onActivityResult(int requestCode, int resultCode, Intent data);
 
 }

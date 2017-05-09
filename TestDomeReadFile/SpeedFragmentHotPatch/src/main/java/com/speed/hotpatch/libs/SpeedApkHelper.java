@@ -3,9 +3,6 @@ package com.speed.hotpatch.libs;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import dalvik.system.DexClassLoader;
 
@@ -14,55 +11,27 @@ import dalvik.system.DexClassLoader;
  */
 public class SpeedApkHelper {
 
-    public static final String TAG ="SpeedApkHelper";
-    public static final String ROOT_FRAGMENT_NAME="root_class";
-
-    private String apkPath;
-    private Context ctx;
-
-    private Drawable appIcon;
-    private String apkName;
-
-    private PackageInfo packageInfo;
-    private DexClassLoader dexClassLoader;
-    private Resources resources;
+    SpeedApkHelperInterface apkHelperInterface;
 
     public SpeedApkHelper(String apkPath, String dexOutPath, Context context) {
-        this.apkPath = apkPath;
-        this.ctx = context;
-
-        packageInfo = SpeedUtils.getPackageInfo(context,apkPath);
-
-        appIcon = SpeedUtils.getAppIcon(context, apkPath);
-        apkName = (String) SpeedUtils.getAppLabel(context, apkPath);
-
-        resources=SpeedUtils.readApkRes(context,apkPath);
-        dexClassLoader=SpeedUtils.readDexFile(context,apkPath,dexOutPath);
-
+        apkHelperInterface= (SpeedApkHelperInterface) new SpeedInvocationHandler().bind(SpeedApkHelperInterface.class);
+        apkHelperInterface.init(apkPath,dexOutPath,context);
     }
 
     public Class<?> getClassById(String keyName){
-        Class<?> aClass =null;
-        try {
-            String string = packageInfo.applicationInfo.metaData.getString(keyName);
-            aClass = dexClassLoader.loadClass(string);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(TAG,""+e.getMessage());
-        }
-        return aClass;
+        return apkHelperInterface.getClassById(keyName);
     }
 
     public PackageInfo getPackageInfo() {
-        return packageInfo;
+        return apkHelperInterface.getPackageInfo();
     }
 
     public DexClassLoader getDexClassLoader() {
-        return dexClassLoader;
+        return apkHelperInterface.getDexClassLoader();
     }
 
     public Resources getResources() {
-        return resources;
+        return apkHelperInterface.getResources();
     }
 
 }

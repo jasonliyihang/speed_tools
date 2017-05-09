@@ -9,4 +9,6 @@ public class ClientMainActivity extends SpeedClientBaseActivity {
     public SpeedBaseInterface getProxyBase() {
         return new TestClass();
     }
+
+
 }

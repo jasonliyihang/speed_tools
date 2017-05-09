@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ClientDome/ClientDome.iml" filepath="$PROJECT_DIR$/ClientDome/ClientDome.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HostDome/HostDome.iml" filepath="$PROJECT_DIR$/HostDome/HostDome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClientDome2/ClientDome2.iml" filepath="$PROJECT_DIR$/ClientDome2/ClientDome2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HostProject/HostProject.iml" filepath="$PROJECT_DIR$/HostProject/HostProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpeedFragmentHotPatch/SpeedFragmentHotPatch.iml" filepath="$PROJECT_DIR$/SpeedFragmentHotPatch/SpeedFragmentHotPatch.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestDomeReadFile.iml" filepath="$PROJECT_DIR$/TestDomeReadFile.iml" />
-      <module fileurl="file://$PROJECT_DIR$/YinLianPay/YinLianPay.iml" filepath="$PROJECT_DIR$/YinLianPay/YinLianPay.iml" />
     </modules>
   </component>
 </project>

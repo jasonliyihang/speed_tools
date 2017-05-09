@@ -131,6 +131,19 @@ public class SpeedUtils {
         return pm.getApplicationLabel(appInfo);
     }
 
+    public static Object getObj(String name, ClassLoader classLoader) {
+        String imp = "Imp";
+        Object object2=null;
+        try {
+            String s = name + imp;
+            Class<?> aClass = classLoader.loadClass(s);
+            object2 = aClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(tag,""+e.getMessage());
+        }
+        return object2;
+    }
 
 
 }
