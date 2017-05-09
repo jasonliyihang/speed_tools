@@ -2,7 +2,9 @@ speedtools 1.0
 
 项目介绍：
 
-	speedtools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；speedtools这个名字主要指的快速迭代开发工具集的意思。
+speedtools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；
+
+speedtools这个名字主要指的快速迭代开发工具集的意思。
 
 	
 
