@@ -1,1 +1,1 @@
-include ':ClientDome', ':SpeedFragmentHotPatch', ':HostProject', ':ClientDome2'
+include ':ClientDome', ':SpeedHotPatch', ':HostProject', ':ClientDome2'

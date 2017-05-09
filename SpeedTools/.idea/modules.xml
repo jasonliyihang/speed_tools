@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ClientDome/ClientDome.iml" filepath="$PROJECT_DIR$/ClientDome/ClientDome.iml" />
       <module fileurl="file://$PROJECT_DIR$/ClientDome2/ClientDome2.iml" filepath="$PROJECT_DIR$/ClientDome2/ClientDome2.iml" />
       <module fileurl="file://$PROJECT_DIR$/HostProject/HostProject.iml" filepath="$PROJECT_DIR$/HostProject/HostProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SpeedFragmentHotPatch/SpeedFragmentHotPatch.iml" filepath="$PROJECT_DIR$/SpeedFragmentHotPatch/SpeedFragmentHotPatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpeedHotPatch/SpeedFragmentHotPatch.iml" filepath="$PROJECT_DIR$/SpeedHotPatch/SpeedFragmentHotPatch.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpeedTools.iml" filepath="$PROJECT_DIR$/SpeedTools.iml" />
     </modules>
   </component>

@@ -11,7 +11,7 @@
             <option value="$PROJECT_DIR$/ClientDome" />
             <option value="$PROJECT_DIR$/ClientDome2" />
             <option value="$PROJECT_DIR$/HostProject" />
-            <option value="$PROJECT_DIR$/SpeedFragmentHotPatch" />
+            <option value="$PROJECT_DIR$/SpeedHotPatch" />
           </set>
         </option>
         <option name="myModules">
@@ -20,7 +20,7 @@
             <option value="$PROJECT_DIR$/ClientDome" />
             <option value="$PROJECT_DIR$/ClientDome2" />
             <option value="$PROJECT_DIR$/HostProject" />
-            <option value="$PROJECT_DIR$/SpeedFragmentHotPatch" />
+            <option value="$PROJECT_DIR$/SpeedHotPatch" />
           </set>
         </option>
       </GradleProjectSettings>
