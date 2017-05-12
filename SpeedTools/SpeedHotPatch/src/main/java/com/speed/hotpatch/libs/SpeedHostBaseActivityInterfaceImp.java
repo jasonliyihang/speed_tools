@@ -34,7 +34,7 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
     public Class<?> getProxy(String keyName, String classTag){
         if (classTag==null)
         {
-            classTag=SpeedApkHelperInterfaceImp.ROOT_FRAGMENT_NAME;
+            classTag=SpeedConfig.ROOT_CLASS_NAME;
         }
         apkHelper = SpeedApkManager.getInstance().getHelper(keyName);
         Class<?> classById = apkHelper.getClassById(classTag);

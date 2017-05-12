@@ -8,8 +8,9 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
+        android:id="@+id/showFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="clientDome 的 root_class 界面" />
+        android:text="clientDome 的 root_class 界面 \n 点击我进入组件内第二界面two_class" />
 
 </RelativeLayout>

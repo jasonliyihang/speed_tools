@@ -13,11 +13,22 @@
             android:name="root_class"
             android:value="com.example.clientdome.TestClass" />
 
-        <activity android:name=".ClientMainActivity">
+        <meta-data
+            android:name="two_class"
+            android:value="com.example.clientdome.TwoClass" />
+
+        <activity
+            android:name=".ClientMainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="speed_tools" android:host="sijienet.com" android:path="/find_class"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
     </application>

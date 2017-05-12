@@ -14,7 +14,6 @@ import dalvik.system.DexClassLoader;
 public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
 
     public static final String TAG ="SpeedApkHelper";
-    public static final String ROOT_FRAGMENT_NAME="root_class";
 
     private String apkPath;
     private Context ctx;

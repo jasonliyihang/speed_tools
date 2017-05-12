@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 /**
  * Created by user on 2017/5/8.
@@ -13,14 +14,26 @@ public abstract class SpeedHostBaseActivity extends AppCompatActivity {
 
     private SpeedHostActivityHelper hostActivityHelper;
     private SpeedBaseInterface proxyClass;
+    private String apkName;
+    private String classTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getIntentParm();
         hostActivityHelper = new SpeedHostActivityHelper(this);
-        proxyClass = hostActivityHelper.getBaserProxy(getApkKeyName(), getClassTag());
+        proxyClass = hostActivityHelper.getBaserProxy(apkName, classTag);
         proxyClass.onCreate(savedInstanceState,this);
+    }
+
+    private void getIntentParm() {
+        apkName = getIntent().getStringExtra(SpeedConfig.APK_NAME);
+        classTag=getIntent().getStringExtra(SpeedConfig.CLASS_TAG);
+        if (apkName==null)
+            apkName = getApkKeyName();
+
+        if (classTag==null)
+            classTag = getClassTag();
     }
 
     public abstract String getApkKeyName();

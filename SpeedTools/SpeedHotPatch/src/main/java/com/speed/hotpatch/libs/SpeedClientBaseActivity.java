@@ -1,8 +1,10 @@
 package com.speed.hotpatch.libs;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 /**
  * Created by user on 2017/5/8.
@@ -15,8 +17,21 @@ public abstract class SpeedClientBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        proxyClass =getProxyBase();
+        getIntentParm();
         proxyClass.onCreate(savedInstanceState,this);
+    }
+
+    private void getIntentParm() {
+        try {
+            String classTag = getIntent().getStringExtra(SpeedConfig.CLASS_TAG);
+            PackageInfo packageInfo2 = SpeedUtils.getPackageInfo2(this, getPackageName());
+            String className = packageInfo2.applicationInfo.metaData.getString(classTag);
+            proxyClass = (SpeedBaseInterface) getClassLoader().loadClass(className).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (proxyClass==null)
+            proxyClass=getProxyBase();
     }
 
     public abstract SpeedBaseInterface getProxyBase();

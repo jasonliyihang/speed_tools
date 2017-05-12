@@ -13,11 +13,18 @@
             android:name="root_class"
             android:value="com.example.clientdome2.OtherClass" />
 
-        <activity android:name=".OtherMainActivity">
+        <activity
+            android:name=".OtherMainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="speed_tools" android:host="sijienet.com" android:path="/find_class"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
     </application>
