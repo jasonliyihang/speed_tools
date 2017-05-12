@@ -34,4 +34,8 @@ public class SpeedApkHelper {
         return apkHelperInterface.getResources();
     }
 
+    public Resources.Theme getTheme(){
+        return apkHelperInterface.getTheme();
+    }
+
 }

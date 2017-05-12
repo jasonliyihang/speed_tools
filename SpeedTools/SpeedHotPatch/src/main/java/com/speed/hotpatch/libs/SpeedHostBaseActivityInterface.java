@@ -21,6 +21,8 @@ public interface SpeedHostBaseActivityInterface {
 
     ClassLoader getClassLoader();
 
+    Resources.Theme getTheme();
+
 
 
 }

@@ -113,4 +113,12 @@ public abstract class SpeedHostBaseActivity extends AppCompatActivity {
         return super.getClassLoader();
     }
 
+    @Override
+    public Resources.Theme getTheme() {
+        if (hostActivityHelper!=null && hostActivityHelper.isInit())
+        {
+            hostActivityHelper.getTheme();
+        }
+        return super.getTheme();
+    }
 }

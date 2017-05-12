@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.example.speedfragmenthotpatch.R;
+
 import dalvik.system.DexClassLoader;
 
 /**
@@ -24,6 +26,7 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
     private PackageInfo packageInfo;
     private DexClassLoader dexClassLoader;
     private Resources resources;
+    private Resources.Theme theme;
 
 
     @Override
@@ -37,6 +40,8 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
         apkName = (String) SpeedUtils.getAppLabel(context, apkPath);
 
         resources=SpeedUtils.readApkRes(context,apkPath);
+        this.theme = resources.newTheme();
+        this.theme.applyStyle(R.style.SpeedTheme,false);
         dexClassLoader=SpeedUtils.readDexFile(context,apkPath,dexOutPath);
     }
 
@@ -67,4 +72,11 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
     public Resources getResources() {
         return resources;
     }
+
+    @Override
+    public Resources.Theme getTheme() {
+        return theme;
+    }
+
+
 }

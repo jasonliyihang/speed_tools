@@ -30,11 +30,15 @@ public class SpeedHostActivityHelper {
     }
 
     public AssetManager getAssets() {
-        return hostBaseActivityInterface.getResources().getAssets();
+        return hostBaseActivityInterface.getAssets();
     }
 
     public ClassLoader getClassLoader() {
         return hostBaseActivityInterface.getClassLoader();
+    }
+
+    public Resources.Theme getTheme(){
+        return hostBaseActivityInterface.getTheme();
     }
 
 

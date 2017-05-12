@@ -21,4 +21,6 @@ public interface SpeedApkHelperInterface {
 
     Resources getResources();
 
+    Resources.Theme getTheme();
+
 }

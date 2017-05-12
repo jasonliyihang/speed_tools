@@ -67,4 +67,10 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
     public ClassLoader getClassLoader() {
         return apkHelper.getDexClassLoader();
     }
+
+    @Override
+    public Resources.Theme getTheme() {
+        return apkHelper.getTheme();
+    }
+
 }
