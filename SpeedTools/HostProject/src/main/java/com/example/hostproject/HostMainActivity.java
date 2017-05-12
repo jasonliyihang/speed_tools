@@ -3,15 +3,17 @@ package com.example.hostproject;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.speed.hotpatch.libs.SpeedApkManager;
 import com.speed.hotpatch.libs.SpeedConfig;
-import com.speed.hotpatch.libs.SpeedHostBaseActivity;
+import com.speed.hotpatch.libs.SpeedLayoutInflaterFactory;
 import com.speed.hotpatch.libs.SpeedUtils;
 
 public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback {
