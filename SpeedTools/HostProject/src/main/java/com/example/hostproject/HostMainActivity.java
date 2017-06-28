@@ -16,6 +16,8 @@ import com.speed.hotpatch.libs.SpeedConfig;
 import com.speed.hotpatch.libs.SpeedLayoutInflaterFactory;
 import com.speed.hotpatch.libs.SpeedUtils;
 
+import java.io.File;
+
 public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback {
 
 
@@ -40,13 +42,15 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     @Override
     public void run() {
-        String s = SpeedUtils.getRootPath(this) + "/ClientDome-debug.apk";
+        String s = "ClientDome-debug.apk";
         String dexOutPath="dex_output2";
-        SpeedApkManager.getInstance().loadApk(FIRST_APK_KEY, s, dexOutPath, this);
+        File nativeApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), s);
+        SpeedApkManager.getInstance().loadApk(FIRST_APK_KEY, nativeApkPath.getAbsolutePath(), dexOutPath, this);
 
-        String s2 = SpeedUtils.getRootPath(this) + "/ClientDome2-debug.apk";
+        String s2 = "ClientDome2-debug.apk";
         String dexOutPath2="dex_output3";
-        SpeedApkManager.getInstance().loadApk(TWO_APK_KEY, s2, dexOutPath2, this);
+        File nativeApkPath1 = SpeedUtils.getNativeApkPath(getApplicationContext(), s2);
+        SpeedApkManager.getInstance().loadApk(TWO_APK_KEY, nativeApkPath1.getAbsolutePath(), dexOutPath2, this);
 
         handler.sendEmptyMessage(0x78);
     }

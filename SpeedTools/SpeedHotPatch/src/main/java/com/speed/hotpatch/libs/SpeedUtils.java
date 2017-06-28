@@ -13,6 +13,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
@@ -23,6 +25,28 @@ import dalvik.system.DexClassLoader;
 public class SpeedUtils {
 
     public static final String tag="SpeedUtils";
+
+    public static File getNativeApkPath(Context context,String name){
+        File file=null;
+        try {
+            InputStream open = context.getAssets().open(name);
+            File my_cache = context.getDir("my_cache", Context.MODE_PRIVATE);
+            file = new File(my_cache.getAbsolutePath() + name);
+            FileOutputStream fileOutputStream=new FileOutputStream(file);
+            int len=-1;
+            byte[] arr=new byte[1024];
+            while ( (len=open.read(arr))!=-1 )
+            {
+                fileOutputStream.write(arr,0,len);
+            }
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            open.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 
     @SuppressWarnings("deprecation")
     public static Resources readApkRes(Context context, String apkPath){
@@ -80,6 +104,7 @@ public class SpeedUtils {
         PackageInfo pkgInfo = null;
         try {
             pkgInfo = pm.getPackageArchiveInfo(apkFilepath, PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_META_DATA);
+            Log.i(tag,"package obje=="+pkgInfo+"==path==="+apkFilepath);
         } catch (Exception e) {
             e.printStackTrace();
             Log.i(tag,""+e.getMessage());

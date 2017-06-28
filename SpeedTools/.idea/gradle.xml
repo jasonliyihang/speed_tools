@@ -14,15 +14,7 @@
             <option value="$PROJECT_DIR$/SpeedHotPatch" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ClientDome" />
-            <option value="$PROJECT_DIR$/ClientDome2" />
-            <option value="$PROJECT_DIR$/HostProject" />
-            <option value="$PROJECT_DIR$/SpeedHotPatch" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
