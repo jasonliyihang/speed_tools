@@ -170,5 +170,14 @@ public class SpeedUtils {
         return object2;
     }
 
+    public static boolean isPublish( Context context, String packageName){
+        if (context.getPackageName().equals(packageName))
+        {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
 
 }
