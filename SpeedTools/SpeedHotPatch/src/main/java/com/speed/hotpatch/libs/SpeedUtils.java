@@ -170,6 +170,14 @@ public class SpeedUtils {
         return object2;
     }
 
+
+    /**
+     *
+     * 新分支注解
+     * @param context
+     * @param packageName
+     * @return
+     */
     public static boolean isPublish( Context context, String packageName){
         if (context.getPackageName().equals(packageName))
         {
