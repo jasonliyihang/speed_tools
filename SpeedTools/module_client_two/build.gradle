@@ -32,6 +32,10 @@ android {
     }
     productFlavors {
     }
+
+    dataBinding{
+        enabled true
+    }
 }
 
 dependencies {

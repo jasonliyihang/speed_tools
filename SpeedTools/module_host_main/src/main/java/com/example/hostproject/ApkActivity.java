@@ -3,7 +3,8 @@ package com.example.hostproject;
 import com.speed.hotpatch.libs.SpeedHostBaseActivity;
 
 /**
- * Created by user on 2017/5/9.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class ApkActivity extends SpeedHostBaseActivity {
 

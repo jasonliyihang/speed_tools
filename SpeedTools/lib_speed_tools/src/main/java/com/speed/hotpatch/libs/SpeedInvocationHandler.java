@@ -7,7 +7,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * Created by user on 2017/5/8.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedInvocationHandler implements InvocationHandler {
 

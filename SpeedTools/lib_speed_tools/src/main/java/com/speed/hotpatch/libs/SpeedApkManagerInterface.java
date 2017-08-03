@@ -3,7 +3,8 @@ package com.speed.hotpatch.libs;
 import android.content.Context;
 
 /**
- * Created by user on 2017/5/8.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public interface SpeedApkManagerInterface {
 

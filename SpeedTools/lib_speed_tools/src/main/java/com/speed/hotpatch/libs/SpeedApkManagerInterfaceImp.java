@@ -5,7 +5,8 @@ import android.content.Context;
 import java.util.HashMap;
 
 /**
- * Created by user on 2017/5/8.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedApkManagerInterfaceImp implements SpeedApkManagerInterface {
 

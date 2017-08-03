@@ -10,7 +10,8 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 /**
- * Created by user on 2017/5/12.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedLayoutInflaterFactory implements LayoutInflaterFactory {
 

@@ -2,20 +2,26 @@ package com.example.clientdome;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.speed.hotpatch.libs.SpeedBaseInterfaceImp;
 
 /**
- * Created by user on 2017/5/11.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class TwoClass extends SpeedBaseInterfaceImp {
 
     @Override
     public void onCreate(Bundle savedInstanceState, Activity activity) {
         super.onCreate(savedInstanceState, activity);
-        TextView textView=new TextView(activity);
-        textView.setText("组件内第二个页面");
-        activity.setContentView(textView);
+
+        activity.setContentView(R.layout.activity_client_main);
+
+        TextView showFont= (TextView) activity.findViewById(R.id.showFont);
+        activity.findViewById(R.id.jump).setVisibility(View.GONE);
+
+        showFont.setText("当前在client_one apk\ntwo_class对应的代理类");
     }
 }

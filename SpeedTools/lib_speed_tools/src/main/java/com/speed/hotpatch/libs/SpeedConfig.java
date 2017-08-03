@@ -1,7 +1,8 @@
 package com.speed.hotpatch.libs;
 
 /**
- * Created by user on 2017/5/11.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedConfig {
 

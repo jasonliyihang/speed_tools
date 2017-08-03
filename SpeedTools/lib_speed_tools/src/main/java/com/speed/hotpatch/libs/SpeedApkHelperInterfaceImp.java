@@ -11,7 +11,8 @@ import com.example.speedfragmenthotpatch.R;
 import dalvik.system.DexClassLoader;
 
 /**
- * Created by user on 2017/5/9.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
 

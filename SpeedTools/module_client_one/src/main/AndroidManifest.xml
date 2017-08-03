@@ -9,6 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/SpeedTheme">
 
+        <!--必须设置root_class-->
         <meta-data
             android:name="root_class"
             android:value="com.example.clientdome.TestClass" />

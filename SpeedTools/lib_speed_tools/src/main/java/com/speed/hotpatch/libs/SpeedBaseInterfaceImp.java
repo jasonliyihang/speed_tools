@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 /**
- * Created by user on 2017/5/9.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedBaseInterfaceImp implements SpeedBaseInterface {
     @Override

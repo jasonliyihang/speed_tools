@@ -22,18 +22,25 @@ import java.lang.reflect.Method;
 import dalvik.system.DexClassLoader;
 
 /**
- * Created by user on 2017/5/2.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedUtils {
 
     public static final String tag="SpeedUtils";
+
+    public static void msg(String tag, String msg){
+        Log.i(tag, msg);
+    }
 
     public static void goActivity(Activity activity, String apkName, String className){
         Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(SpeedConfig.ACTIVITY_URL));
         intent.setPackage(activity.getPackageName());
         intent.putExtra(SpeedConfig.APK_NAME, apkName);
         intent.putExtra(SpeedConfig.CLASS_TAG, className);
+        msg(tag, "goActivity=="+apkName+"=="+className);
         activity.startActivity(intent);
+        msg(tag, "goActivity end");
     }
 
     public static File getNativeApkPath(Context context,String name){

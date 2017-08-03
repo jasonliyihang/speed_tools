@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 
 /**
- * Created by user on 2017/5/8.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public abstract class SpeedHostBaseActivity extends AppCompatActivity {
 

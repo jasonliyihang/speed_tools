@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/SpeedTheme">
 
+        <!--启动activity 加载apk-->
         <activity android:name=".HostMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

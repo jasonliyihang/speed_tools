@@ -1,24 +1,24 @@
 package com.example.hostproject;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.view.LayoutInflaterFactory;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.speed.hotpatch.libs.SpeedApkManager;
-import com.speed.hotpatch.libs.SpeedConfig;
-import com.speed.hotpatch.libs.SpeedLayoutInflaterFactory;
 import com.speed.hotpatch.libs.SpeedUtils;
 
 import java.io.File;
 
-public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback {
+/**
+ *  by liyihang
+ *  blog http://sijienet.com/
+ */
+public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback, View.OnClickListener {
 
 
     public static final String FIRST_APK_KEY="first_apk";
@@ -26,17 +26,22 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     private Handler handler;
 
+    private TextView showFont;
+    private ProgressBar progressBar;
+    private Button openOneApk;
+    private Button openTwoApk;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_main);
 
-        handler=new Handler(this);
-    }
+        showFont= (TextView) findViewById(R.id.show_font);
+        progressBar= (ProgressBar) findViewById(R.id.progressbar);
+        openOneApk= (Button) findViewById(R.id.open_one_apk);
+        openTwoApk= (Button) findViewById(R.id.open_two_apk);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        handler=new Handler(this);
         new Thread(this).start();
     }
 
@@ -57,30 +62,24 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     @Override
     public boolean handleMessage(Message message) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setMessage("选择进入界面");
-        builder.setPositiveButton("第一个apk界面", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(SpeedConfig.ACTIVITY_URL));
-                intent.setPackage(getPackageName());
-                intent.putExtra(SpeedConfig.APK_NAME, FIRST_APK_KEY);
-                startActivity(intent);
-                dialogInterface.cancel();
-            }
-        });
-        builder.setNegativeButton("第二个apk界面", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(SpeedConfig.ACTIVITY_URL));
-                intent.setPackage(getPackageName());
-                intent.putExtra(SpeedConfig.APK_NAME, TWO_APK_KEY);
-                startActivity(intent);
-                dialogInterface.cancel();
-            }
-        });
-        builder.show();
+        showFont.setText("当前是主宿主apk\n插件apk完毕");
+        progressBar.setVisibility(View.GONE);
+        openOneApk.setVisibility(View.VISIBLE);
+        openTwoApk.setVisibility(View.VISIBLE);
+        openOneApk.setOnClickListener(this);
+        openTwoApk.setOnClickListener(this);
         return false;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId()==R.id.open_one_apk)
+        {
+            SpeedUtils.goActivity(this, FIRST_APK_KEY, null);
+        }
+        if (v.getId()==R.id.open_two_apk)
+        {
+            SpeedUtils.goActivity(this, TWO_APK_KEY, null);
+        }
+    }
 }

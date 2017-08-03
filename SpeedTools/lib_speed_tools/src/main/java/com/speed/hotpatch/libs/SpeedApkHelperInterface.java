@@ -7,7 +7,8 @@ import android.content.res.Resources;
 import dalvik.system.DexClassLoader;
 
 /**
- * Created by user on 2017/5/9.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public interface SpeedApkHelperInterface {
 

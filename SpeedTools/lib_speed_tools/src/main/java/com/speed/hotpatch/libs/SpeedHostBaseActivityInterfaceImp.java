@@ -7,7 +7,8 @@ import android.content.res.Resources;
 import android.widget.LinearLayout;
 
 /**
- * Created by user on 2017/5/9.
+ *  by liyihang
+ *  blog http://sijienet.com/
  */
 public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityInterface {
 
