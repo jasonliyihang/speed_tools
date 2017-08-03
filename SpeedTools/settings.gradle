@@ -1,1 +1,1 @@
-include ':ClientDome', ':SpeedHotPatch', ':HostProject', ':ClientDome2'
+include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two'

@@ -8,10 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ClientDome" />
-            <option value="$PROJECT_DIR$/ClientDome2" />
-            <option value="$PROJECT_DIR$/HostProject" />
-            <option value="$PROJECT_DIR$/SpeedHotPatch" />
+            <option value="$PROJECT_DIR$/lib_speed_tools" />
+            <option value="$PROJECT_DIR$/module_client_one" />
+            <option value="$PROJECT_DIR$/module_client_two" />
+            <option value="$PROJECT_DIR$/module_host_main" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
