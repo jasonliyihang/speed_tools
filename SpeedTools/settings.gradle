@@ -1,1 +1,1 @@
-include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two'
+include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two', ':lib_img_utils'

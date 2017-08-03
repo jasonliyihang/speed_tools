@@ -1,7 +1,6 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
-
     signingConfigs {
         config {
             keyAlias 'liyihang'
@@ -10,11 +9,9 @@ android {
             storePassword '123456'
         }
     }
-
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
-        applicationId "com.example.clientdome"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionName rootProject.versionName
@@ -34,16 +31,14 @@ android {
     }
     productFlavors {
     }
-
-    dataBinding{
-        enabled true
-    }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile project(':lib_speed_tools')
-    compile project(':lib_img_utils')
+    compile files('libs/universal-image-loader-1.8.4-with-sources.jar')
 }

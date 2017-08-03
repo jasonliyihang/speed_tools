@@ -13,12 +13,22 @@
         android:textColor="#ff0000"
         android:textSize="16sp" />
 
-    <Button
+    <TextView
+        android:textSize="16sp"
+        android:textColor="#000000"
         android:id="@+id/jump"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
         android:text="点击跳转apk内的two_class界面" />
+
+    <ImageView
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="190dp"
+        android:id="@+id/img_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
