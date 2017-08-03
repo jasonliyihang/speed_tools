@@ -10,7 +10,7 @@ speedtools这个名字主要指的快速迭代开发工具集的意思。
 
 功能与特性：
 
-1、支持Android 4.3 以上版本
+1、支持Android 2.3 以上版本
 
 2、支持R文件资源直接调用
 
@@ -27,18 +27,18 @@ speedtools这个名字主要指的快速迭代开发工具集的意思。
 
 项目结构：
 
-ClientDome、ClientDome2 是apk插件工程
+module_client_one、module_client_two 是apk插件工程
 
-HostProject 是宿主工程 （基本不足任何事情只是加载apk工程）
+module_host_main 是宿主工程 （基本不足任何事情只是加载apk工程）
 
-SpeedFragmentHotPatch speedtools 主要核心类工程
+lib_speed_tools 主要核心类工程 （自己应用只要依赖就行）
 
 
 
 
 使用方法：
 
-单独编译ClientDome、ClientDome2，将apk加入sd卡。
+单独编译module_client_one、module_client_two，将apk加入sd卡。
 
 然后修改路径即可运行。
 
