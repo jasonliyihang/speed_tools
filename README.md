@@ -1,10 +1,10 @@
-# Speed Tools  V1.0
+# Speed-Tools  V1.0
 
 项目介绍：
 
-speedtools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；
+speed-tools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；
 
-speedtools这个名字主要指的快速迭代开发工具集的意思。
+speed-tools这个名字主要指的快速迭代开发工具集的意思。
 
 	
 
@@ -38,7 +38,7 @@ lib_speed_tools 主要核心类工程 （自己应用只要依赖就行）
 
 使用方法：
 
-单独编译module_client_one、module_client_two，将apk加入sd卡。
+单独编译module_client_one、module_client_two，将apk加入host project 的assert目录即可。
 
 然后修改路径即可运行。
 
