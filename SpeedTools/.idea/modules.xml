@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ClientDome/ClientDome.iml" filepath="$PROJECT_DIR$/ClientDome/ClientDome.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ClientDome2/ClientDome2.iml" filepath="$PROJECT_DIR$/ClientDome2/ClientDome2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HostProject/HostProject.iml" filepath="$PROJECT_DIR$/HostProject/HostProject.iml" />
+      <module fileurl="file://D:\git_test\speed_tools\SpeedTools\SpeedHotPatch\SpeedFragmentHotPatch.iml" filepath="D:\git_test\speed_tools\SpeedTools\SpeedHotPatch\SpeedFragmentHotPatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpeedHotPatch/SpeedHotPatch.iml" filepath="$PROJECT_DIR$/SpeedHotPatch/SpeedHotPatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpeedTools.iml" filepath="$PROJECT_DIR$/SpeedTools.iml" />
+    </modules>
+  </component>
+</project>
