@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="20dp"
-        android:text="当前在client_two apk\nroot_class对应的代理类"
+        android:text="当前是module_client_two-release.apk中的OtherClass类"
         android:textColor="#000000"
         android:textSize="16sp" />
 

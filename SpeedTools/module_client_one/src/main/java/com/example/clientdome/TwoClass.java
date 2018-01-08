@@ -22,6 +22,6 @@ public class TwoClass extends SpeedBaseInterfaceImp {
         TextView showFont= (TextView) activity.findViewById(R.id.showFont);
         activity.findViewById(R.id.jump).setVisibility(View.GONE);
 
-        showFont.setText("当前在client_one apk\ntwo_class对应的代理类");
+        showFont.setText("当前是module_client_one-release.apk的TwoClass");
     }
 }

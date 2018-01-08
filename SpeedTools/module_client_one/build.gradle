@@ -13,6 +13,7 @@ android {
 
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
+
     defaultConfig {
         applicationId "com.example.clientdome"
         minSdkVersion rootProject.minSdkVersion
@@ -25,11 +26,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
-            jniDebuggable false
-            renderscriptDebuggable false
-            renderscriptOptimLevel 3
-            zipAlignEnabled true
         }
     }
     productFlavors {
@@ -43,7 +39,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:appcompat-v7:'+rootProject.appcompatVersion
     compile project(':lib_speed_tools')
     compile project(':lib_img_utils')
 }

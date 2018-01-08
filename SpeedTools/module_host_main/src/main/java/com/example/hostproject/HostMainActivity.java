@@ -62,7 +62,7 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     @Override
     public boolean handleMessage(Message message) {
-        showFont.setText("当前是主宿主apk\n插件apk完毕");
+        showFont.setText("当前是主宿主apk\n插件apk加载完毕");
         progressBar.setVisibility(View.GONE);
         openOneApk.setVisibility(View.VISIBLE);
         openTwoApk.setVisibility(View.VISIBLE);
