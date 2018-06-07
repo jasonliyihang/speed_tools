@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpeedTools.iml" filepath="$PROJECT_DIR$/SpeedTools.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_img_utils/lib_img_utils.iml" filepath="$PROJECT_DIR$/lib_img_utils/lib_img_utils.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_speed_tools/lib_speed_tools.iml" filepath="$PROJECT_DIR$/lib_speed_tools/lib_speed_tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_client_one/module_client_one.iml" filepath="$PROJECT_DIR$/module_client_one/module_client_one.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_client_two/module_client_two.iml" filepath="$PROJECT_DIR$/module_client_two/module_client_two.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_host_main/module_host_main.iml" filepath="$PROJECT_DIR$/module_host_main/module_host_main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/speed_tools.iml" filepath="$PROJECT_DIR$/speed_tools.iml" />
     </modules>
   </component>
 </project>
