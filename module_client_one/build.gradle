@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
 
-    signingConfigs {
-        config {
-            keyAlias 'liyihang'
-            keyPassword '123456'
-            storeFile file('/home/liyihang/anroid_source/keys.jks')
-            storePassword '123456'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'liyihang'
+//            keyPassword '123456'
+//            storeFile file('/home/liyihang/anroid_source/keys.jks')
+//            storePassword '123456'
+//        }
+//    }
 
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -20,7 +20,7 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionName rootProject.versionName
         multiDexEnabled rootProject.multiDexEnabled
-        signingConfig signingConfigs.config
+//        signingConfig signingConfigs.config
     }
     buildTypes {
         release {

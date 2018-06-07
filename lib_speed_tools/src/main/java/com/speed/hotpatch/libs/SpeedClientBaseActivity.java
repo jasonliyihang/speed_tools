@@ -91,15 +91,6 @@ public abstract class SpeedClientBaseActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        boolean b = proxyClass.onTouchEvent(event);
-        if (b)
-        {
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

@@ -60,10 +60,6 @@ public class SpeedBaseInterfaceImp implements SpeedBaseInterface {
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

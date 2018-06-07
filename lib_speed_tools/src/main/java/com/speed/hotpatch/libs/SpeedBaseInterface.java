@@ -31,8 +31,6 @@ public interface SpeedBaseInterface {
 
     void onBackPressed();
 
-    boolean onTouchEvent(MotionEvent event);
-
     void onSaveInstanceState(Bundle outState);
 
 }

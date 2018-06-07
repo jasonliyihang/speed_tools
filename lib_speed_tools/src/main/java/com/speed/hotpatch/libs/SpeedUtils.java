@@ -175,34 +175,16 @@ public class SpeedUtils {
 
     public static Object getObj(String name, ClassLoader classLoader) {
         String imp = "Imp";
-        Object object2=null;
+        Object object2 = null;
         try {
             String s = name + imp;
             Class<?> aClass = classLoader.loadClass(s);
             object2 = aClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag,""+e.getMessage());
+            Log.i(tag, "" + e.getMessage());
         }
         return object2;
-    }
-
-    /**
-     *
-     * 判断是否是发布模式
-     * @param context  上下文
-     * @param packageName 配置报名
-     * @return 是发布模式与否
-     **/
-    public static boolean isPublish(Context context, String packageName){
-        if (context.getPackageName().equals(packageName))
-        {
-            Log.i(tag,"is publish=="+false);
-            return false;
-        }else {
-            Log.i(tag,"is publish=="+true);
-            return true;
-        }
     }
 
 

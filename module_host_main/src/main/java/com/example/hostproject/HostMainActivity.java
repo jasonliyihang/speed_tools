@@ -47,12 +47,12 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     @Override
     public void run() {
-        String s = "module_client_one-release.apk";
+        String s = "module_client_one-debug.apk";
         String dexOutPath="dex_output2";
         File nativeApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), s);
         SpeedApkManager.getInstance().loadApk(FIRST_APK_KEY, nativeApkPath.getAbsolutePath(), dexOutPath, this);
 
-        String s2 = "module_client_two-release.apk";
+        String s2 = "module_client_two-debug.apk";
         String dexOutPath2="dex_output3";
         File nativeApkPath1 = SpeedUtils.getNativeApkPath(getApplicationContext(), s2);
         SpeedApkManager.getInstance().loadApk(TWO_APK_KEY, nativeApkPath1.getAbsolutePath(), dexOutPath2, this);
