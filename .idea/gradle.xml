@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/module_client_one" />
             <option value="$PROJECT_DIR$/module_client_two" />
             <option value="$PROJECT_DIR$/module_host_main" />
+            <option value="$PROJECT_DIR$/theme_manager" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

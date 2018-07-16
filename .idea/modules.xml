@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/module_client_two/module_client_two.iml" filepath="$PROJECT_DIR$/module_client_two/module_client_two.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_host_main/module_host_main.iml" filepath="$PROJECT_DIR$/module_host_main/module_host_main.iml" />
       <module fileurl="file://$PROJECT_DIR$/speed_tools.iml" filepath="$PROJECT_DIR$/speed_tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/theme_manager/theme_manager.iml" filepath="$PROJECT_DIR$/theme_manager/theme_manager.iml" />
     </modules>
   </component>
 </project>

@@ -10,13 +10,14 @@ android {
 //        }
 //    }
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+//    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.example.clientdome2"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
         versionName rootProject.versionName
-        multiDexEnabled rootProject.multiDexEnabled
+//        multiDexEnabled rootProject.multiDexEnabled
 //        signingConfig signingConfigs.config
     }
     buildTypes {
@@ -25,18 +26,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
-
-    dataBinding{
-        enabled true
-    }
+//    productFlavors {
+//    }
+//
+//    dataBinding{
+//        enabled true
+//    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:'+rootProject.appcompatVersion
-    compile project(':lib_speed_tools')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation project(':lib_speed_tools')
 }

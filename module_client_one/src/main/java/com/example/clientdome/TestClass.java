@@ -31,7 +31,7 @@ public class TestClass extends SpeedBaseInterfaceImp {
 
         ImageView imageView= (ImageView) activity.findViewById(R.id.img_view);
         imageView.setVisibility(View.VISIBLE);
-        ImgUtils.getInstance(activity).showImg("http://img.my.csdn.net/uploads/201309/01/1378037235_3453.jpg", imageView);
+        ImgUtils.getInstance(activity).showImg("http://cdn.hktd01e.td98.com/rxputao.com/skin/sever-2.jpg", imageView);
 
     }
 }
