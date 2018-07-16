@@ -7,7 +7,6 @@ import android.content.res.Resources;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public interface SpeedHostBaseActivityInterface {
 

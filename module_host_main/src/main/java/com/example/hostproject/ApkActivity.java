@@ -4,7 +4,6 @@ import com.speed.hotpatch.libs.SpeedHostBaseActivity;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class ApkActivity extends SpeedHostBaseActivity {
 

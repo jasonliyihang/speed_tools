@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public abstract class SpeedClientBaseActivity extends AppCompatActivity {
 

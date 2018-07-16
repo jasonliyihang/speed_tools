@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.widget.LinearLayout;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityInterface {
 
@@ -19,11 +17,11 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
     public void init(Activity activity) {
         this.activity = activity;
 
-        LinearLayout linearLayout = new LinearLayout(activity);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setId(android.R.id.primary);
-
-        activity.setContentView(linearLayout);
+//        LinearLayout linearLayout = new LinearLayout(activity);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//        linearLayout.setId(android.R.id.primary);
+//
+//        activity.setContentView(linearLayout);
     }
 
     @Override

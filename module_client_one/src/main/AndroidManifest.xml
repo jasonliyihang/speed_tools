@@ -32,7 +32,7 @@
 
             <!--组件意图-->
             <intent-filter>
-                <data android:scheme="speed_tools" android:host="sijienet.com" android:path="/find_class"/>
+                <data android:scheme="speed_tools" android:host="jason.com" android:path="/find_class"/>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>

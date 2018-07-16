@@ -8,7 +8,6 @@ import dalvik.system.DexClassLoader;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class SpeedApkHelper {
 

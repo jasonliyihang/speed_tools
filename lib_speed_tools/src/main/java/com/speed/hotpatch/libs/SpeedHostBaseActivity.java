@@ -6,11 +6,9 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public abstract class SpeedHostBaseActivity extends AppCompatActivity {
 
@@ -21,11 +19,13 @@ public abstract class SpeedHostBaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LayoutInflaterCompat.setFactory(getLayoutInflater(),new SpeedLayoutInflaterFactory());
-        super.onCreate(savedInstanceState);
         getIntentParm();
         hostActivityHelper = new SpeedHostActivityHelper(this);
         proxyClass = hostActivityHelper.getBaserProxy(apkName, classTag);
+        SpeedLayoutInflaterFactory speedLayoutInflaterFactory = new SpeedLayoutInflaterFactory();
+        speedLayoutInflaterFactory.setHostActivityHelper(hostActivityHelper);
+        LayoutInflaterCompat.setFactory(getLayoutInflater(),speedLayoutInflaterFactory);
+        super.onCreate(savedInstanceState);
         proxyClass.onCreate(savedInstanceState,this);
     }
 

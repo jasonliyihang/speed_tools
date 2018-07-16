@@ -3,11 +3,9 @@ package com.speed.hotpatch.libs;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public interface SpeedBaseInterface {
 

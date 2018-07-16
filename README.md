@@ -122,7 +122,7 @@ public class ClientMainActivity extends SpeedClientBaseActivity {
 
             <!--组件意图-->
             <intent-filter>
-                <data android:scheme="speed_tools" android:host="sijienet.com" android:path="/find_class"/>
+                <data android:scheme="speed_tools" android:host="jason.com" android:path="/find_class"/>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
@@ -138,7 +138,7 @@ public class ClientMainActivity extends SpeedClientBaseActivity {
 ```
 /**
  *  by liyihang
- *  blog http://sijienet.com/
+ *  blog http://jason.com/
  */
 public class ApkActivity extends SpeedHostBaseActivity {
 
@@ -162,7 +162,7 @@ HostMainActivity.java
 ```
 /**
  *  by liyihang
- *  blog http://sijienet.com/
+ *  blog http://jason.com/
  */
 public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback, View.OnClickListener {
 
@@ -275,7 +275,7 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
             android:label="@string/app_name"
             android:theme="@style/SpeedTheme" >
             <intent-filter>
-                <data android:scheme="speed_tools" android:host="sijienet.com" android:path="/find_class"/>
+                <data android:scheme="speed_tools" android:host="jason.com" android:path="/find_class"/>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>

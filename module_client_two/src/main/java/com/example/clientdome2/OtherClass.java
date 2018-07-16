@@ -7,7 +7,6 @@ import com.speed.hotpatch.libs.SpeedBaseInterfaceImp;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class OtherClass extends SpeedBaseInterfaceImp {
 

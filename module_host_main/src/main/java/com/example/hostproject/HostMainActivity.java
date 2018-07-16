@@ -16,7 +16,6 @@ import java.io.File;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class HostMainActivity extends AppCompatActivity implements Runnable,Handler.Callback, View.OnClickListener {
 

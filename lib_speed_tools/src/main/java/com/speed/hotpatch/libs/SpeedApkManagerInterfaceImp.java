@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class SpeedApkManagerInterfaceImp implements SpeedApkManagerInterface {
 

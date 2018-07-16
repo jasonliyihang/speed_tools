@@ -11,13 +11,17 @@ import java.util.HashMap;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class SpeedLayoutInflaterFactory implements LayoutInflaterFactory {
 
     private HashMap<String, Constructor<? extends View>> sConstructorMap = new HashMap<>();
     private Class<?>[] mConstructorSignature = new Class[]{Context.class, AttributeSet.class};
     private Object[] mConstructorArgs = new Object[2];
+    private SpeedHostActivityHelper hostActivityHelper;
+
+    public void setHostActivityHelper(SpeedHostActivityHelper hostActivityHelper) {
+        this.hostActivityHelper = hostActivityHelper;
+    }
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -37,7 +41,11 @@ public class SpeedLayoutInflaterFactory implements LayoutInflaterFactory {
             if (constructor == null) {
                 //没有缓存，根据类名创建Constructor对象存入缓存
                 // Class not found in the cache, see if it's real, and try to add it
-                clazz = context.getClassLoader().loadClass(name).asSubclass(View.class);
+                ClassLoader loader=context.getClassLoader();
+                if (hostActivityHelper != null && hostActivityHelper.isInit()) {
+                    loader=hostActivityHelper.getClassLoader();
+                }
+                clazz = loader.loadClass(name).asSubclass(View.class);
                 constructor = clazz.getConstructor(mConstructorSignature);
                 sConstructorMap.put(name, constructor);
             }

@@ -11,7 +11,6 @@ import com.speed.hotpatch.libs.SpeedUtils;
 
 /**
  *  by liyihang
- *  blog http://sijienet.com/
  */
 public class TestClass extends SpeedBaseInterfaceImp {
 
