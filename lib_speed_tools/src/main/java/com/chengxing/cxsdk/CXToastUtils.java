@@ -36,7 +36,6 @@ public class CXToastUtils {
             contextWeakReference = new WeakReference<>(context);
     }
 
-    //方法一
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Toast mToast = null;
     private Object synObject = new Object();
@@ -73,7 +72,6 @@ public class CXToastUtils {
         }).start();
     }
 
-    //方法二:注意此方法不能再子线程中使用
     private long oneTime;
     private long twoTime;
     private String oldMsg;
@@ -108,7 +106,6 @@ public class CXToastUtils {
         });
     }
 
-    //方法三
     public TextView mTextView;
     public WindowManager mWindowManager = null;
     @SuppressLint("HandlerLeak")

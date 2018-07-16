@@ -185,7 +185,7 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
                     int id = Integer.parseInt(attrValue.substring(1));
                     try {
                         String entryName = context.getResources().getResourceEntryName(id);
-                        if (entryName.startsWith(PRE_FONT) && !info.isExist) {//取用第一个大小
+                        if (entryName.startsWith(PRE_FONT) && !info.isExist) {
                             info.isExist = true;
                             info.attrName = entryName;
                         }

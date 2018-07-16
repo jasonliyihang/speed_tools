@@ -40,7 +40,7 @@ speed-tools插件化框架使用：
 
 引用：
 ```
-compile 'com.liyihangjson:speed_tools:1.0.8'
+compile 'com.liyihangjson:speed_tools:1.0.9'
 
 ```
 
