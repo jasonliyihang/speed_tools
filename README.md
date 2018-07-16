@@ -31,9 +31,6 @@ module_client_two:测试业务apk 2
 lib_img_utils:测试imageloader图片框架(用于测试第三方库是否正常执行)
 
 
-如果对你有帮助，不要忘了start一下哦！！！ ^.^
-
-
 speed-tools插件化框架使用：
 
 引用：
@@ -42,3 +39,6 @@ compile 'com.liyihangjson:speed_tools:1.0.8'
 
 ```
 
+
+
+如果对你有帮助，不要忘了start一下哦！！！ ^.^
