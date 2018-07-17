@@ -4,8 +4,12 @@
 
 speed-tools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；
 
+android api 升级至 28 版本
+
 apk plugin framework，
+
 apk plugin theme manager
+
 apk plugin font size manager
 
 	
