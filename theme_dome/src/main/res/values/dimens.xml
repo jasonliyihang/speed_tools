@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--font size attr values-->
+    <dimen name="cxf_normal">14sp</dimen>
+</resources>

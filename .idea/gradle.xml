@@ -8,11 +8,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/black_theme" />
             <option value="$PROJECT_DIR$/lib_img_utils" />
             <option value="$PROJECT_DIR$/lib_speed_tools" />
             <option value="$PROJECT_DIR$/module_client_one" />
             <option value="$PROJECT_DIR$/module_client_two" />
             <option value="$PROJECT_DIR$/module_host_main" />
+            <option value="$PROJECT_DIR$/theme_dome" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

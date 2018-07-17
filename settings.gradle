@@ -1,1 +1,1 @@
-include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two', ':lib_img_utils'
+include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two', ':lib_img_utils', ':theme_dome', ':black_theme'
