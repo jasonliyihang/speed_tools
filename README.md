@@ -12,6 +12,18 @@ apk plugin theme manager
 
 apk plugin font size manager
 
+
+
+重要更新：
+
+加入apk插件化换肤功能
+
+加入字体大小控制功能
+
+支持属性换肤
+
+支持无刷新换肤
+
 	
 
 功能与特性：
@@ -59,15 +71,6 @@ compile 'com.liyihangjson:speed_tools:1.0.9'
 
 ```
 
-重要更新：
-
-加入apk插件化换肤功能
-
-加入字体大小控制功能
-
-支持属性换肤
-
-支持无刷新换肤
 
 
 
