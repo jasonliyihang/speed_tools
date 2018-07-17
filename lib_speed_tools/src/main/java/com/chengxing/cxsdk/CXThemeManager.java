@@ -8,7 +8,10 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+
+import com.speed.hotpatch.libs.SpeedUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -108,16 +111,20 @@ public class CXThemeManager {
     }
 
     public CXThemeManager updateThemeConfig(Context context, String name){
-        CXUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, name).apply();
+        SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, name).apply();
         return this;
     }
 
     public CXThemeManager init(Context context) {
         this.context=context;
-        String tname = CXUtils.getSharedPreferences(context).getString(THEME_KEY_NAME, DEFAULT_THEMES);
-        CXUtils.msg("init theme config name=="+tname);
+        String tname = SpeedUtils.getSharedPreferences(context).getString(THEME_KEY_NAME, DEFAULT_THEMES);
+        msg("init theme config name=="+tname);
         changeTheme( tname);
         return this;
+    }
+
+    public static void msg(String msg){
+        Log.i(CXThemeManager.class.getSimpleName(), msg);
     }
 
     public Resources getResources() {
@@ -138,8 +145,8 @@ public class CXThemeManager {
             }else{
                 packageName=getPackageInfo(context, file.getAbsolutePath()).packageName;
                 mResources=getApkResources(context, file.getAbsolutePath());
-                CXUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, tname).apply();
-                CXUtils.msg("changeTheme select=="+tname);
+                SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, tname).apply();
+                msg("changeTheme select=="+tname);
             }
         }
         return this;
@@ -148,8 +155,8 @@ public class CXThemeManager {
     private void defaultTheme(Context context) {
         packageName=context.getPackageName();
         mResources=context.getResources();
-        CXUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, DEFAULT_THEMES).apply();
-        CXUtils.msg("changeTheme select=="+DEFAULT_THEMES);
+        SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, DEFAULT_THEMES).apply();
+        msg("changeTheme select=="+DEFAULT_THEMES);
     }
 
 
@@ -174,7 +181,7 @@ public class CXThemeManager {
             open.close();
         } catch (Exception e) {
             file=null;
-            CXUtils.msg("moveApkToAppPath err=="+e.getMessage());
+            msg("moveApkToAppPath err=="+e.getMessage());
             e.printStackTrace();
         }
         return file;
@@ -189,7 +196,7 @@ public class CXThemeManager {
             Resources resources = context.getResources();
             resources1 = new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
         } catch (Exception e) {
-            CXUtils.msg("getApkResources err=="+e.getMessage());
+            msg("getApkResources err=="+e.getMessage());
             e.printStackTrace();
         }
         return resources1;
@@ -204,10 +211,10 @@ public class CXThemeManager {
         PackageInfo pkgInfo = null;
         try {
             pkgInfo = pm.getPackageArchiveInfo(apkFilepath, PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_META_DATA);
-            CXUtils.msg("package=="+pkgInfo.packageName+"==path==="+apkFilepath);
+            msg("package=="+pkgInfo.packageName+"==path==="+apkFilepath);
         } catch (Exception e) {
             e.printStackTrace();
-            CXUtils.msg(""+e.getMessage());
+            msg(""+e.getMessage());
         }
         return pkgInfo;
     }
@@ -217,7 +224,7 @@ public class CXThemeManager {
     }
 
     public int rid(int rid, String type){
-        return rid(CXUtils.getNameByRid(context, rid), type);
+        return rid(SpeedUtils.getNameByRid(context, rid), type);
     }
 
     public int color(String rid){
@@ -231,7 +238,7 @@ public class CXThemeManager {
     }
 
     public int color(int rid){
-        return color(CXUtils.getNameByRid(context, rid));
+        return color(SpeedUtils.getNameByRid(context, rid));
     }
 
     public Drawable drawable(String rid){
@@ -249,7 +256,7 @@ public class CXThemeManager {
     }
 
     public Drawable drawable(int rid){
-        return drawable(CXUtils.getNameByRid(context, rid));
+        return drawable(SpeedUtils.getNameByRid(context, rid));
     }
 
 

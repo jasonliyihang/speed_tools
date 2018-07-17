@@ -1,6 +1,9 @@
 package com.chengxing.cxsdk;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.speed.hotpatch.libs.SpeedUtils;
 
 public class CXFontManager {
 
@@ -28,15 +31,19 @@ public class CXFontManager {
 
     public CXFontManager init(Context context){
         this.context=context;
-        fontScale = CXUtils.getSharedPreferences(context).getFloat(KEY_NAME, 0);
-        CXUtils.msg("CXFontManager init fontScale=="+fontScale);
+        fontScale = SpeedUtils.getSharedPreferences(context).getFloat(KEY_NAME, 0);
+        msg("CXFontManager init fontScale=="+fontScale);
         return this;
+    }
+
+    private void msg(String msg){
+        Log.i(getClass().getSimpleName(), msg);
     }
 
     public CXFontManager changeConfig(float s){
         this.fontScale=s;
-        CXUtils.getSharedPreferences(context).edit().putFloat(KEY_NAME, s).apply();
-        CXUtils.msg("CXFontManager changeConfig fontScale=="+fontScale);
+        SpeedUtils.getSharedPreferences(context).edit().putFloat(KEY_NAME, s).apply();
+        msg("CXFontManager changeConfig fontScale=="+fontScale);
         return this;
     }
 

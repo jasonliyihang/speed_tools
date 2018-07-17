@@ -3,10 +3,10 @@ package com.liyihang.jason.theme_dome;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.chengxing.cxsdk.CXThemeManager;
 import com.chengxing.cxsdk.CXUpdateUIListener;
-import com.chengxing.cxsdk.CXUtils;
 
 public class BaseActivity extends AppCompatActivity implements CXUpdateUIListener {
 
@@ -25,6 +25,6 @@ public class BaseActivity extends AppCompatActivity implements CXUpdateUIListene
     @Override
     public void updateUI(boolean isFistLoading) {
         // call code update time
-        CXUtils.toast("layout no refresh ok");
+        Toast.makeText(this, "layout no refresh ok", Toast.LENGTH_SHORT).show();
     }
 }

@@ -3,6 +3,7 @@ package com.speed.hotpatch.libs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,6 +31,20 @@ public class SpeedUtils {
 
     public static void msg(String tag, String msg){
         Log.i(tag, msg);
+    }
+
+    public static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences("cx_config", Context.MODE_PRIVATE);
+    }
+
+    public static String getNameByRid(Context context, int rid) {
+        String name = null;
+        try {
+            name = context.getResources().getResourceEntryName(rid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public static void goActivity(Activity activity, String apkName, String className){
