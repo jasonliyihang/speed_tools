@@ -43,6 +43,13 @@ module_client_two:测试业务apk 2
 lib_img_utils:测试imageloader图片框架(用于测试第三方库是否正常执行)
 
 
+换肤功能和字体大小功能：
+
+theme_dome 换肤功能dome
+
+black_theme 换肤皮肤包
+
+
 
 speed-tools插件化框架使用：
 
