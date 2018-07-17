@@ -15,7 +15,5 @@ public class Application extends android.app.Application {
         // theme init
         CXThemeManager.getInstance().init(this);
 
-        //toast tools init
-        CXToastUtils.getInstance().init(this);
     }
 }
