@@ -4,6 +4,10 @@
 
 speed-tools 是一款基于代理模式的动态部署apk热更新框架、插件化开发框架；
 
+apk plugin framework，
+apk plugin theme manager
+apk plugin font size manager
+
 	
 
 功能与特性：
@@ -43,6 +47,16 @@ speed-tools插件化框架使用：
 compile 'com.liyihangjson:speed_tools:1.0.9'
 
 ```
+
+重要更新：
+
+加入apk插件化换肤功能
+
+加入字体大小控制功能
+
+支持属性换肤
+
+支持无刷新换肤
 
 
 
