@@ -1,4 +1,4 @@
-# Speed-Tools  V1.0.8
+# Speed-Tools  V1.0.9
 
 项目介绍：
 
@@ -67,7 +67,7 @@ speed-tools插件化框架使用：
 
 引用：
 ```
-compile 'com.liyihangjson:speed_tools:1.0.9'
+implementation 'com.liyihangjson:speed_tools:1.0.9'
 
 ```
 
