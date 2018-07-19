@@ -3,8 +3,8 @@ package com.liyihang.jason.theme_dome;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chengxing.cxsdk.CXFontManager;
-import com.chengxing.cxsdk.CXThemeManager;
+import com.liyihang.jason.CXFontManager;
+import com.liyihang.jason.CXThemeManager;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 

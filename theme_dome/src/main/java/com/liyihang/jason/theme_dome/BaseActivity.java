@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.chengxing.cxsdk.CXThemeManager;
-import com.chengxing.cxsdk.CXUpdateUIListener;
+import com.liyihang.jason.CXThemeManager;
+import com.liyihang.jason.CXUpdateUIListener;
 
 public class BaseActivity extends AppCompatActivity implements CXUpdateUIListener {
 

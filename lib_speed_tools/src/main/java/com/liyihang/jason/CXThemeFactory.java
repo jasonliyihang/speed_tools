@@ -1,4 +1,4 @@
-package com.chengxing.cxsdk;
+package com.liyihang.jason;
 
 import android.content.Context;
 import android.support.v4.util.ArrayMap;

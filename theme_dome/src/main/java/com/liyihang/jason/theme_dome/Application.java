@@ -1,8 +1,7 @@
 package com.liyihang.jason.theme_dome;
 
-import com.chengxing.cxsdk.CXFontManager;
-import com.chengxing.cxsdk.CXThemeManager;
-import com.chengxing.cxsdk.CXToastUtils;
+import com.liyihang.jason.CXFontManager;
+import com.liyihang.jason.CXThemeManager;
 
 public class Application extends android.app.Application {
 
