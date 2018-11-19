@@ -3,8 +3,8 @@ package com.liyihang.jason.theme_dome;
 import android.os.Bundle;
 import android.view.View;
 
-import com.liyihang.jason.CXFontManager;
-import com.liyihang.jason.CXThemeManager;
+import com.liyihang.jason.SPFontManager;
+import com.liyihang.jason.SPThemeManager;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -20,20 +20,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         if (view.getId()==R.id.change)
         {
-            CXThemeManager.getInstance().changeTheme(apk_file_name).sendUpdateUIAction();
+            SPThemeManager.getInstance().changeTheme(apk_file_name).sendUpdateUIAction();
         }
         if (view.getId()==R.id.restore)
         {
-            CXThemeManager.getInstance().changeTheme(CXThemeManager.DEFAULT_THEMES).sendUpdateUIAction();
+            SPThemeManager.getInstance().changeTheme(SPThemeManager.DEFAULT_THEMES).sendUpdateUIAction();
         }
         if (view.getId()==R.id.fontSize)
         {
-            CXFontManager.getInstance().changeConfig(40).updateUI();
+            SPFontManager.getInstance().changeConfig(40).updateUI();
         }
 
         if (view.getId()==R.id.restoreFont)
         {
-            CXFontManager.getInstance().changeConfig(0).updateUI();
+            SPFontManager.getInstance().changeConfig(0).updateUI();
         }
 
     }

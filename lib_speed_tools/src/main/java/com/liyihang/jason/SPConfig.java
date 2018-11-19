@@ -7,7 +7,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
-public class CXConfig  {
+public class SPConfig {
 
     public static final String SDCARD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath();
 

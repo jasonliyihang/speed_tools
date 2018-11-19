@@ -1,7 +1,7 @@
 package com.liyihang.jason.theme_dome;
 
-import com.liyihang.jason.CXFontManager;
-import com.liyihang.jason.CXThemeManager;
+import com.liyihang.jason.SPFontManager;
+import com.liyihang.jason.SPThemeManager;
 
 public class Application extends android.app.Application {
 
@@ -10,9 +10,9 @@ public class Application extends android.app.Application {
         super.onCreate();
 
         // theme font size
-        CXFontManager.getInstance().init(this);
+        SPFontManager.getInstance().init(this);
         // theme init
-        CXThemeManager.getInstance().init(this);
+        SPThemeManager.getInstance().init(this);
 
     }
 }

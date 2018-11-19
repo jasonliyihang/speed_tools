@@ -3,19 +3,19 @@ package com.liyihang.jason;
 import android.view.View;
 import android.widget.TextView;
 
-public class CXTextColorEnum extends CXThemeEnum {
+public class SPTextColorEnum extends SPThemeEnum {
 
-    public CXTextColorEnum() {
+    public SPTextColorEnum() {
         super("textColor");
     }
 
     @Override
     protected void use(View view, String name) {
             try {
-                int color = CXThemeManager.getInstance().color(name);
+                int color = SPThemeManager.getInstance().color(name);
                 ((TextView) view).setTextColor(color);
             }catch (Exception e){
-                msg("CXThemeEnum use err===="+e.getMessage());
+                msg("SPThemeEnum use err===="+e.getMessage());
                 e.printStackTrace();
             }
     }

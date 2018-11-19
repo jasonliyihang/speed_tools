@@ -3,11 +3,11 @@ package com.liyihang.jason;
 import android.util.Log;
 import android.view.View;
 
-public abstract class CXThemeEnum {
+public abstract class SPThemeEnum {
 
     private String type;
 
-    public CXThemeEnum(String textColor) {
+    public SPThemeEnum(String textColor) {
         type=textColor;
     }
 

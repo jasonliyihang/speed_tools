@@ -13,20 +13,20 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-public class CXToastUtils {
+public class SPToastUtils {
 
-    private static CXToastUtils manager = null;
+    private static SPToastUtils manager = null;
 
-    public static CXToastUtils getInstance() {
-        synchronized (CXToastUtils.class) {
+    public static SPToastUtils getInstance() {
+        synchronized (SPToastUtils.class) {
             if (manager == null) {
-                manager = new CXToastUtils();
+                manager = new SPToastUtils();
             }
         }
         return manager;
     }
 
-    private CXToastUtils() {
+    private SPToastUtils() {
     }
 
     private WeakReference<Context> contextWeakReference;

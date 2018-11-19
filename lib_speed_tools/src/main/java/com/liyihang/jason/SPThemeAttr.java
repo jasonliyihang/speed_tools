@@ -2,11 +2,11 @@ package com.liyihang.jason;
 
 import android.view.View;
 
-public class CXThemeAttr {
+public class SPThemeAttr {
     private String mName;
-    private CXThemeEnum themeEnum;
+    private SPThemeEnum themeEnum;
 
-    public CXThemeAttr(String anme, CXThemeEnum themeEnum) {
+    public SPThemeAttr(String anme, SPThemeEnum themeEnum) {
         this.mName = anme;
         this.themeEnum = themeEnum;
     }

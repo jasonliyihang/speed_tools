@@ -15,20 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CXThemeFactory implements LayoutInflater.Factory2 {
+public class SPThemeFactory implements LayoutInflater.Factory2 {
 
     public String PRE = "cxt_";
     public String PRE_FONT = "cxf_";
     private AppCompatDelegate delegate;
-    private List<CXThemeView> views = new ArrayList<>();
+    private List<SPThemeView> views = new ArrayList<>();
 
-    private CXFontInfo info;
-    private List<CXFontInfo> infos = new ArrayList<>();
-    private ArrayList<CXThemeEnum> themeEnums=new ArrayList<>();
-    private CXUpdateUIListener updateUIListener;
+    private SPFontInfo info;
+    private List<SPFontInfo> infos = new ArrayList<>();
+    private ArrayList<SPThemeEnum> themeEnums=new ArrayList<>();
+    private SPUpdateUIListener updateUIListener;
     private LayoutInflater.Factory2 factory2;
 
-    public CXUpdateUIListener getUpdateUIListener() {
+    public SPUpdateUIListener getUpdateUIListener() {
         return updateUIListener;
     }
 
@@ -40,25 +40,25 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
         this.PRE_FONT = PRE_FONT;
     }
 
-    public CXThemeFactory(AppCompatActivity delegate, ArrayList<CXThemeEnum> enums, LayoutInflater.Factory2 factory2){
+    public SPThemeFactory(AppCompatActivity delegate, ArrayList<SPThemeEnum> enums, LayoutInflater.Factory2 factory2){
         this.delegate = delegate.getDelegate();
         this.factory2=factory2;
-        updateUIListener= (CXUpdateUIListener) delegate;
+        updateUIListener= (SPUpdateUIListener) delegate;
         views.clear();
         infos.clear();
         themeEnums.clear();
-        themeEnums.add(new CXBackgroundEnum());
-        themeEnums.add(new CXTextColorEnum());
-        themeEnums.add(new CXSrcEnum());
+        themeEnums.add(new SPBackgroundEnum());
+        themeEnums.add(new SPTextColorEnum());
+        themeEnums.add(new SPSrcEnum());
         if (enums!=null)
             themeEnums.addAll(enums);
     }
 
     public void updateUI() {
-        for (CXThemeView view : views) {
+        for (SPThemeView view : views) {
             view.use();
         }
-        for (CXFontInfo fontView : infos) {
+        for (SPFontInfo fontView : infos) {
             fontView.use();
         }
     }
@@ -148,8 +148,8 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
 
     private View handleView(View parent, String name, Context context, AttributeSet attrs) {
         View view = null;
-        info = new CXFontInfo();
-        List<CXThemeAttr> themeAttrs = getThemeAttrs(name, attrs, context);
+        info = new SPFontInfo();
+        List<SPThemeAttr> themeAttrs = getThemeAttrs(name, attrs, context);
         if (info.isExist) {
             view = delegate.createView(parent, name, context, attrs);
             if (view == null) {
@@ -167,7 +167,7 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
                 }
             }
             if (view != null) {
-                CXThemeView cxThemeView = new CXThemeView(view, themeAttrs);
+                SPThemeView cxThemeView = new SPThemeView(view, themeAttrs);
                 views.add(cxThemeView);
                 cxThemeView.use();
             }
@@ -175,8 +175,8 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
         return view;
     }
 
-    public List<CXThemeAttr> getThemeAttrs(String name, AttributeSet attrs, Context context) {
-        List<CXThemeAttr> skinAttrs = new ArrayList<>();
+    public List<SPThemeAttr> getThemeAttrs(String name, AttributeSet attrs, Context context) {
+        List<SPThemeAttr> skinAttrs = new ArrayList<>();
         for (int i = 0; i < attrs.getAttributeCount(); i++) {
             String attrName = attrs.getAttributeName(i);
             String attrValue = attrs.getAttributeValue(i);
@@ -190,22 +190,22 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
                             info.attrName = entryName;
                         }
                     } catch (Exception e) {
-                        CXThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
+                        SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
                         e.printStackTrace();
                     }
                 }
             }
-            CXThemeEnum attrType = getSupprotAttrType(attrName);
+            SPThemeEnum attrType = getSupprotAttrType(attrName);
             if (attrType == null) continue;
             if (attrValue.startsWith("@")) {
                 int id = Integer.parseInt(attrValue.substring(1));
                 try {
                     String entryName = context.getResources().getResourceEntryName(id);
                     if (entryName.startsWith(PRE)) {
-                        skinAttrs.add(new CXThemeAttr(entryName, attrType));
+                        skinAttrs.add(new SPThemeAttr(entryName, attrType));
                     }
                 } catch (Exception e) {
-                    CXThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
+                    SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
                     e.printStackTrace();
                 }
             }
@@ -213,8 +213,8 @@ public class CXThemeFactory implements LayoutInflater.Factory2 {
         return skinAttrs;
     }
 
-    private CXThemeEnum getSupprotAttrType(String attrName) {
-        for (CXThemeEnum attrType : themeEnums) {
+    private SPThemeEnum getSupprotAttrType(String attrName) {
+        for (SPThemeEnum attrType : themeEnums) {
             if (attrType.getType().equals(attrName))
                 return attrType;
         }

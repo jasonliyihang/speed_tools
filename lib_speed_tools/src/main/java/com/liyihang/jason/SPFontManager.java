@@ -5,20 +5,20 @@ import android.util.Log;
 
 import com.speed.hotpatch.libs.SpeedUtils;
 
-public class CXFontManager {
+public class SPFontManager {
 
-    private static CXFontManager manager=null;
+    private static SPFontManager manager=null;
 
-    public static CXFontManager getInstance() {
-        synchronized (CXFontManager.class) {
+    public static SPFontManager getInstance() {
+        synchronized (SPFontManager.class) {
             if (manager==null) {
-                manager=new CXFontManager();
+                manager=new SPFontManager();
             }
         }
         return manager;
     }
 
-    private CXFontManager(){
+    private SPFontManager(){
     }
 
     public static final String KEY_NAME="font_scale_size";
@@ -29,10 +29,10 @@ public class CXFontManager {
         return fontScale;
     }
 
-    public CXFontManager init(Context context){
+    public SPFontManager init(Context context){
         this.context=context;
         fontScale = SpeedUtils.getSharedPreferences(context).getFloat(KEY_NAME, 0);
-        msg("CXFontManager init fontScale=="+fontScale);
+        msg("SPFontManager init fontScale=="+fontScale);
         return this;
     }
 
@@ -40,15 +40,15 @@ public class CXFontManager {
         Log.i(getClass().getSimpleName(), msg);
     }
 
-    public CXFontManager changeConfig(float s){
+    public SPFontManager changeConfig(float s){
         this.fontScale=s;
         SpeedUtils.getSharedPreferences(context).edit().putFloat(KEY_NAME, s).apply();
-        msg("CXFontManager changeConfig fontScale=="+fontScale);
+        msg("SPFontManager changeConfig fontScale=="+fontScale);
         return this;
     }
 
-    public CXFontManager updateUI(){
-        CXThemeManager.getInstance().sendUpdateUIAction();
+    public SPFontManager updateUI(){
+        SPThemeManager.getInstance().sendUpdateUIAction();
         return this;
     }
 
@@ -57,7 +57,7 @@ public class CXFontManager {
     }
 
     public static String getString(int rid){
-        return CXFontManager.getInstance().getS(rid);
+        return SPFontManager.getInstance().getS(rid);
     }
 
 

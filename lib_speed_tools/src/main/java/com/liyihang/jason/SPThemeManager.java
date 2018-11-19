@@ -20,20 +20,20 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CXThemeManager {
+public class SPThemeManager {
 
-    private static CXThemeManager manager=null;
+    private static SPThemeManager manager=null;
 
-    public static CXThemeManager getInstance() {
-        synchronized (CXThemeManager.class) {
+    public static SPThemeManager getInstance() {
+        synchronized (SPThemeManager.class) {
             if (manager==null) {
-                manager=new CXThemeManager();
+                manager=new SPThemeManager();
             }
         }
         return manager;
     }
 
-    private CXThemeManager(){
+    private SPThemeManager(){
     }
 
     public static final String RES_ID = "id";
@@ -54,16 +54,16 @@ public class CXThemeManager {
     private Context context;
     private String packageName;
 
-    private List<CXThemeFactory> updateUIListeners=new ArrayList<>();
+    private List<SPThemeFactory> updateUIListeners=new ArrayList<>();
 
 
-    public void registerUpdateUI(AppCompatActivity delegate, ArrayList<CXThemeEnum> enums, LayoutInflater.Factory2 factory2, String pre, String fontPre) {
+    public void registerUpdateUI(AppCompatActivity delegate, ArrayList<SPThemeEnum> enums, LayoutInflater.Factory2 factory2, String pre, String fontPre) {
         if (delegate!=null)
         {
-            CXThemeFactory contains = isExist((CXUpdateUIListener) delegate);
+            SPThemeFactory contains = isExist((SPUpdateUIListener) delegate);
             if (contains==null)
             {
-                CXThemeFactory cxThemeFactory = new CXThemeFactory(delegate, enums, factory2);
+                SPThemeFactory cxThemeFactory = new SPThemeFactory(delegate, enums, factory2);
                 if (pre!=null)
                     cxThemeFactory.setPre(pre);
                 if (fontPre!=null)
@@ -79,8 +79,8 @@ public class CXThemeManager {
         registerUpdateUI(delegate,null,null,null, null);
     }
 
-    public CXThemeFactory isExist(CXUpdateUIListener listener){
-        for (CXThemeFactory item : updateUIListeners) {
+    public SPThemeFactory isExist(SPUpdateUIListener listener){
+        for (SPThemeFactory item : updateUIListeners) {
             if (item.getUpdateUIListener()==listener)
             {
                 return item;
@@ -92,7 +92,7 @@ public class CXThemeManager {
     public void unRegisterUpdateUI(AppCompatActivity delegate){
         if (delegate!=null)
         {
-            CXThemeFactory contains = isExist((CXUpdateUIListener) delegate);
+            SPThemeFactory contains = isExist((SPUpdateUIListener) delegate);
             if (contains!=null)
             {
                 contains.clearAll();
@@ -102,20 +102,20 @@ public class CXThemeManager {
         }
     }
 
-    public CXThemeManager sendUpdateUIAction(){
-        for (CXThemeFactory updateUIListener : updateUIListeners) {
+    public SPThemeManager sendUpdateUIAction(){
+        for (SPThemeFactory updateUIListener : updateUIListeners) {
             updateUIListener.getUpdateUIListener().updateUI(false);
             updateUIListener.updateUI();
         }
         return this;
     }
 
-    public CXThemeManager updateThemeConfig(Context context, String name){
+    public SPThemeManager updateThemeConfig(Context context, String name){
         SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, name).apply();
         return this;
     }
 
-    public CXThemeManager init(Context context) {
+    public SPThemeManager init(Context context) {
         this.context=context;
         String tname = SpeedUtils.getSharedPreferences(context).getString(THEME_KEY_NAME, DEFAULT_THEMES);
         msg("init theme config name=="+tname);
@@ -124,7 +124,7 @@ public class CXThemeManager {
     }
 
     public static void msg(String msg){
-        Log.i(CXThemeManager.class.getSimpleName(), msg);
+        Log.i(SPThemeManager.class.getSimpleName(), msg);
     }
 
     public Resources getResources() {
@@ -135,7 +135,7 @@ public class CXThemeManager {
         return context.getResources()==mResources;
     }
 
-    public CXThemeManager changeTheme(String tname){
+    public SPThemeManager changeTheme(String tname){
         if (tname.equals(DEFAULT_THEMES)){
             defaultTheme(context);
         }else {

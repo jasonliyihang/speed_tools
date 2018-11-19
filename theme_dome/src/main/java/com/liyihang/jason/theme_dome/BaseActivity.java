@@ -5,20 +5,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.liyihang.jason.CXThemeManager;
-import com.liyihang.jason.CXUpdateUIListener;
+import com.liyihang.jason.SPThemeManager;
+import com.liyihang.jason.SPUpdateUIListener;
 
-public class BaseActivity extends AppCompatActivity implements CXUpdateUIListener {
+public class BaseActivity extends AppCompatActivity implements SPUpdateUIListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        CXThemeManager.getInstance().registerUpdateUI(this);
+        SPThemeManager.getInstance().registerUpdateUI(this);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
-        CXThemeManager.getInstance().unRegisterUpdateUI(this);
+        SPThemeManager.getInstance().unRegisterUpdateUI(this);
         super.onDestroy();
     }
 

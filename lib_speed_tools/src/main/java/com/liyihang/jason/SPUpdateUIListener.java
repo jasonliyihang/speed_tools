@@ -1,5 +1,5 @@
 package com.liyihang.jason;
 
-public interface CXUpdateUIListener {
+public interface SPUpdateUIListener {
     void updateUI(boolean isFistLoading);
 }
