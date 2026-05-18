@@ -77,6 +77,32 @@ public class SpeedUtils {
         return file;
     }
 
+    public static File getNativeApkPathByDir(String dirPath, String apkFileName) {
+        if (dirPath == null || apkFileName == null) {
+            Log.e(TAG, "getNativeApkPathByDir failed: dirPath or apkFileName is null");
+            return null;
+        }
+        File apkFile = new File(dirPath, apkFileName);
+        if (!apkFile.exists() || !apkFile.isFile()) {
+            Log.e(TAG, "getNativeApkPathByDir file not found: " + apkFile.getAbsolutePath());
+            return null;
+        }
+        return apkFile;
+    }
+
+    public static File getNativeApkPathByAbsolutePath(String apkFilePath) {
+        if (apkFilePath == null) {
+            Log.e(TAG, "getNativeApkPathByAbsolutePath failed: apkFilePath is null");
+            return null;
+        }
+        File apkFile = new File(apkFilePath);
+        if (!apkFile.exists() || !apkFile.isFile()) {
+            Log.e(TAG, "getNativeApkPathByAbsolutePath file not found: " + apkFilePath);
+            return null;
+        }
+        return apkFile;
+    }
+
     @SuppressWarnings("deprecation")
     public static Resources readApkRes(Context context, String apkPath){
         Resources resources1=null;

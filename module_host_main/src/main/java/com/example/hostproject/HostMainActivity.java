@@ -25,6 +25,7 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     public static final String FIRST_APK_KEY="first_apk";
     public static final String TWO_APK_KEY="other_apk";
+    private static final String EXTERNAL_APK_DIR = "/sdcard/Downloads";
     private static final int MSG_LOAD_SUCCESS = 0x78;
     private static final int MSG_LOAD_FAILED = 0x79;
 
@@ -54,7 +55,10 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
     public void run() {
         String firstPluginApkName = "module_client_one-debug.apk";
         String firstDexOutPath="dex_output2";
-        File firstPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), firstPluginApkName);
+        File firstPluginApkPath = SpeedUtils.getNativeApkPathByDir(EXTERNAL_APK_DIR, firstPluginApkName);
+        if (firstPluginApkPath == null) {
+            firstPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), firstPluginApkName);
+        }
         if (firstPluginApkPath == null) {
             handler.sendEmptyMessage(MSG_LOAD_FAILED);
             return;
@@ -63,7 +67,10 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
         String secondPluginApkName = "module_client_two-debug.apk";
         String secondDexOutPath="dex_output3";
-        File secondPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), secondPluginApkName);
+        File secondPluginApkPath = SpeedUtils.getNativeApkPathByDir(EXTERNAL_APK_DIR, secondPluginApkName);
+        if (secondPluginApkPath == null) {
+            secondPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), secondPluginApkName);
+        }
         if (secondPluginApkPath == null) {
             handler.sendEmptyMessage(MSG_LOAD_FAILED);
             return;
@@ -76,7 +83,7 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
     @Override
     public boolean handleMessage(Message message) {
         if (message.what == MSG_LOAD_FAILED) {
-            showFont.setText("插件apk加载失败，请检查assets资源");
+            showFont.setText("插件apk加载失败，请检查 /sdcard/Downloads 或 assets 资源");
             progressBar.setVisibility(View.GONE);
             return true;
         }
