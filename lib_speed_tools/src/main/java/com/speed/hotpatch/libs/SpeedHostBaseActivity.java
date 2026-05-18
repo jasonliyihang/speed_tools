@@ -21,7 +21,7 @@ public abstract class SpeedHostBaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getIntentParm();
         hostActivityHelper = new SpeedHostActivityHelper(this);
-        proxyClass = hostActivityHelper.getBaserProxy(apkName, classTag);
+        proxyClass = hostActivityHelper.getBaseProxy(apkName, classTag);
         SpeedLayoutInflaterFactory speedLayoutInflaterFactory = new SpeedLayoutInflaterFactory();
         speedLayoutInflaterFactory.setHostActivityHelper(hostActivityHelper);
         LayoutInflaterCompat.setFactory(getLayoutInflater(),speedLayoutInflaterFactory);
