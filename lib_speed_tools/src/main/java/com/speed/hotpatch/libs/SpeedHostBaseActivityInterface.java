@@ -14,6 +14,9 @@ public interface SpeedHostBaseActivityInterface {
 
     boolean isInit();
 
+    SpeedBaseInterface getBaseProxy(String keyName, String classTag);
+
+    @Deprecated
     SpeedBaseInterface getBaserProxy(String keyName, String classTag);
 
     Resources getResources();

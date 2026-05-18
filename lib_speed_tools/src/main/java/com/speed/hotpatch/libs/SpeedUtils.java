@@ -27,7 +27,7 @@ import dalvik.system.DexClassLoader;
  */
 public class SpeedUtils {
 
-    public static final String tag="SpeedUtils";
+    public static final String TAG = "SpeedUtils";
 
     public static void msg(String tag, String msg){
         Log.i(tag, msg);
@@ -52,31 +52,55 @@ public class SpeedUtils {
         intent.setPackage(activity.getPackageName());
         intent.putExtra(SpeedConfig.APK_NAME, apkName);
         intent.putExtra(SpeedConfig.CLASS_TAG, className);
-        msg(tag, "goActivity=="+apkName+"=="+className);
+        msg(TAG, "goActivity=="+apkName+"=="+className);
         activity.startActivity(intent);
-        msg(tag, "goActivity end");
+        msg(TAG, "goActivity end");
     }
 
     public static File getNativeApkPath(Context context,String name){
         File file=null;
-        try {
-            InputStream open = context.getAssets().open(name);
+        try (InputStream open = context.getAssets().open(name)) {
             File my_cache = context.getDir("my_cache", Context.MODE_PRIVATE);
-            file = new File(my_cache.getAbsolutePath() + name);
-            FileOutputStream fileOutputStream=new FileOutputStream(file);
-            int len=-1;
-            byte[] arr=new byte[1024];
-            while ( (len=open.read(arr))!=-1 )
-            {
-                fileOutputStream.write(arr,0,len);
+            file = new File(my_cache, name);
+            try (FileOutputStream fileOutputStream=new FileOutputStream(file)) {
+                int len=-1;
+                byte[] arr=new byte[1024];
+                while ( (len=open.read(arr))!=-1 )
+                {
+                    fileOutputStream.write(arr,0,len);
+                }
+                fileOutputStream.flush();
             }
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            open.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "getNativeApkPath failed for asset=" + name, e);
         }
         return file;
+    }
+
+    public static File getNativeApkPathByDir(String dirPath, String apkFileName) {
+        if (dirPath == null || apkFileName == null) {
+            Log.e(TAG, "getNativeApkPathByDir failed: dirPath or apkFileName is null");
+            return null;
+        }
+        File apkFile = new File(dirPath, apkFileName);
+        if (!apkFile.exists() || !apkFile.isFile()) {
+            Log.e(TAG, "getNativeApkPathByDir file not found: " + apkFile.getAbsolutePath());
+            return null;
+        }
+        return apkFile;
+    }
+
+    public static File getNativeApkPathByAbsolutePath(String apkFilePath) {
+        if (apkFilePath == null) {
+            Log.e(TAG, "getNativeApkPathByAbsolutePath failed: apkFilePath is null");
+            return null;
+        }
+        File apkFile = new File(apkFilePath);
+        if (!apkFile.exists() || !apkFile.isFile()) {
+            Log.e(TAG, "getNativeApkPathByAbsolutePath file not found: " + apkFilePath);
+            return null;
+        }
+        return apkFile;
     }
 
     @SuppressWarnings("deprecation")
@@ -90,13 +114,18 @@ public class SpeedUtils {
             resources1 = new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag,""+e.getMessage());
+            Log.i(TAG,""+e.getMessage());
         }
         return resources1;
     }
 
-    public static String getOutDexpaPath(Context context, String apkPath){
+    public static String getOutDexPath(Context context, String apkPath){
         return context.getDir(apkPath ,Context.MODE_PRIVATE).getAbsolutePath();
+    }
+
+    @Deprecated
+    public static String getOutDexpaPath(Context context, String apkPath){
+        return getOutDexPath(context, apkPath);
     }
 
     public static String getRootPath(Context context){
@@ -124,10 +153,10 @@ public class SpeedUtils {
         PackageInfo pkgInfo = null;
         try {
             pkgInfo = pm.getPackageArchiveInfo(apkFilepath, PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_META_DATA);
-            Log.i(tag,"package obje=="+pkgInfo+"==path==="+apkFilepath);
+            Log.i(TAG,"package obje=="+pkgInfo+"==path==="+apkFilepath);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag,""+e.getMessage());
+            Log.i(TAG,""+e.getMessage());
         }
         return pkgInfo;
     }
@@ -139,7 +168,7 @@ public class SpeedUtils {
             pkgInfo = pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_META_DATA);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag,""+e.getMessage());
+            Log.i(TAG,""+e.getMessage());
         }
         return pkgInfo;
     }
@@ -163,10 +192,10 @@ public class SpeedUtils {
     public static DexClassLoader readDexFile(Context context, String apkPath, String outDexPath){
         DexClassLoader dexClassLoader=null;
         try {
-            dexClassLoader=new DexClassLoader(apkPath, getOutDexpaPath(context, outDexPath), context.getApplicationInfo().nativeLibraryDir, context.getClassLoader());
+            dexClassLoader=new DexClassLoader(apkPath, getOutDexPath(context, outDexPath), context.getApplicationInfo().nativeLibraryDir, context.getClassLoader());
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag,""+e.getMessage());
+            Log.i(TAG,""+e.getMessage());
         }
         return dexClassLoader;
     }
@@ -196,7 +225,7 @@ public class SpeedUtils {
             object2 = aClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i(tag, "" + e.getMessage());
+            Log.i(TAG, "" + e.getMessage());
         }
         return object2;
     }

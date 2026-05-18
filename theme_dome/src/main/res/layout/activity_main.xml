@@ -4,8 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cxt_test"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/theme_title"
+        android:textColor="#222222"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/theme_subtitle"
+        android:textColor="#555555"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/theme_tip"
+        android:textColor="#666666"
+        android:textSize="12sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,14 +49,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:src="@mipmap/cxt_sever" />
+        android:layout_marginTop="24dp"
+        android:src="@mipmap/cxt_server" />
 
     <Button
         android:textSize="@dimen/cxf_normal"
         android:id="@+id/fontSize"
         android:onClick="onClick"
-        android:text="change font size"
+        android:text="@string/btn_increase_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -33,7 +64,7 @@
         android:textSize="@dimen/cxf_normal"
         android:id="@+id/restoreFont"
         android:onClick="onClick"
-        android:text="restore font size"
+        android:text="@string/btn_restore_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -43,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="click change theme" />
+        android:text="@string/btn_change_theme" />
 
     <Button
         android:textSize="@dimen/cxf_normal"
@@ -51,7 +82,7 @@
         android:id="@+id/restore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="restore" />
+        android:text="@string/btn_restore_theme" />
 
 
 </LinearLayout>
