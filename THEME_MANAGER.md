@@ -95,7 +95,7 @@ public class BaseActivity extends AppCompatActivity implements CXUpdateUIListene
 
 ```
 
-在mipmap中放一张被替换的图片 cxt_sever.jpg
+在mipmap中放一张被替换的图片 cxt_server.jpg
 
 
 ### 4  接下来创建皮肤工程
@@ -134,7 +134,7 @@ black_theme  黑色 皮肤工程
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:src="@mipmap/cxt_sever" />
+        android:src="@mipmap/cxt_server" />
 
     <Button
         android:textSize="@dimen/cxf_normal"
@@ -223,7 +223,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
 ```
-
 
 
 

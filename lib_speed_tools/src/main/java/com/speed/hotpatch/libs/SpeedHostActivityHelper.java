@@ -21,8 +21,13 @@ public class SpeedHostActivityHelper {
         return hostBaseActivityInterface.isInit();
     }
 
+    public SpeedBaseInterface getBaseProxy(String keyName, String classTag){
+        return hostBaseActivityInterface.getBaseProxy(keyName, classTag);
+    }
+
+    @Deprecated
     public SpeedBaseInterface getBaserProxy(String keyName, String classTag){
-        return hostBaseActivityInterface.getBaserProxy(keyName, classTag);
+        return getBaseProxy(keyName, classTag);
     }
 
     public Resources getResources(){

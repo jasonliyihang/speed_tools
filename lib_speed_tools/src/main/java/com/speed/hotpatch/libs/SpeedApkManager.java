@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class SpeedApkManager {
 
-    private static SpeedApkManager instance = null;
+    private static volatile SpeedApkManager instance = null;
     private SpeedApkManagerInterface apkManagerInterface;
 
     private SpeedApkManager() {
