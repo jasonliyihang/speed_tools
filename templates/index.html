@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>实时语音翻译 (EN → 中文)</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>实时语音翻译</h1>
+      <p class="subtitle">WhisperLive 英文识别 + 中文翻译（手机/PC 自适配）</p>
+
+      <section class="controls">
+        <button id="startBtn">开始录音</button>
+        <button id="stopBtn" disabled>停止</button>
+        <span id="status">未连接</span>
+      </section>
+
+      <section class="panel">
+        <h2>英文原文</h2>
+        <div id="enText" class="text-box"></div>
+      </section>
+
+      <section class="panel">
+        <h2>中文翻译</h2>
+        <div id="zhText" class="text-box"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
