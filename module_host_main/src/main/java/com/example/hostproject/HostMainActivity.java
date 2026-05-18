@@ -2,6 +2,7 @@ package com.example.hostproject;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.speed.hotpatch.libs.SpeedApkManager;
 import com.speed.hotpatch.libs.SpeedUtils;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *  by liyihang
@@ -22,8 +25,11 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
 
     public static final String FIRST_APK_KEY="first_apk";
     public static final String TWO_APK_KEY="other_apk";
+    private static final int MSG_LOAD_SUCCESS = 0x78;
+    private static final int MSG_LOAD_FAILED = 0x79;
 
     private Handler handler;
+    private final ExecutorService loaderExecutor = Executors.newSingleThreadExecutor();
 
     private TextView showFont;
     private ProgressBar progressBar;
@@ -40,27 +46,43 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
         openOneApk= (Button) findViewById(R.id.open_one_apk);
         openTwoApk= (Button) findViewById(R.id.open_two_apk);
 
-        handler=new Handler(this);
-        new Thread(this).start();
+        handler = new Handler(Looper.getMainLooper(), this);
+        loaderExecutor.execute(this);
     }
 
     @Override
     public void run() {
-        String s = "module_client_one-debug.apk";
-        String dexOutPath="dex_output2";
-        File nativeApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), s);
-        SpeedApkManager.getInstance().loadApk(FIRST_APK_KEY, nativeApkPath.getAbsolutePath(), dexOutPath, this);
+        String firstPluginApkName = "module_client_one-debug.apk";
+        String firstDexOutPath="dex_output2";
+        File firstPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), firstPluginApkName);
+        if (firstPluginApkPath == null) {
+            handler.sendEmptyMessage(MSG_LOAD_FAILED);
+            return;
+        }
+        SpeedApkManager.getInstance().loadApk(FIRST_APK_KEY, firstPluginApkPath.getAbsolutePath(), firstDexOutPath, this);
 
-        String s2 = "module_client_two-debug.apk";
-        String dexOutPath2="dex_output3";
-        File nativeApkPath1 = SpeedUtils.getNativeApkPath(getApplicationContext(), s2);
-        SpeedApkManager.getInstance().loadApk(TWO_APK_KEY, nativeApkPath1.getAbsolutePath(), dexOutPath2, this);
+        String secondPluginApkName = "module_client_two-debug.apk";
+        String secondDexOutPath="dex_output3";
+        File secondPluginApkPath = SpeedUtils.getNativeApkPath(getApplicationContext(), secondPluginApkName);
+        if (secondPluginApkPath == null) {
+            handler.sendEmptyMessage(MSG_LOAD_FAILED);
+            return;
+        }
+        SpeedApkManager.getInstance().loadApk(TWO_APK_KEY, secondPluginApkPath.getAbsolutePath(), secondDexOutPath, this);
 
-        handler.sendEmptyMessage(0x78);
+        handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
     }
 
     @Override
     public boolean handleMessage(Message message) {
+        if (message.what == MSG_LOAD_FAILED) {
+            showFont.setText("插件apk加载失败，请检查assets资源");
+            progressBar.setVisibility(View.GONE);
+            return true;
+        }
+        if (message.what != MSG_LOAD_SUCCESS) {
+            return true;
+        }
         showFont.setText("当前是主宿主apk\n插件apk加载完毕");
         progressBar.setVisibility(View.GONE);
         openOneApk.setVisibility(View.VISIBLE);
@@ -68,6 +90,13 @@ public class HostMainActivity extends AppCompatActivity implements Runnable,Hand
         openOneApk.setOnClickListener(this);
         openTwoApk.setOnClickListener(this);
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loaderExecutor.shutdownNow();
+        handler.removeCallbacksAndMessages(null);
     }
 
     @Override

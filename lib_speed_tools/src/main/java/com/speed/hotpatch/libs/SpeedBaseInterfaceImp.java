@@ -1,6 +1,7 @@
 package com.speed.hotpatch.libs;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -61,6 +62,36 @@ public class SpeedBaseInterfaceImp implements SpeedBaseInterface {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onPostCreate(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onPostResume() {
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
 
     }
 }

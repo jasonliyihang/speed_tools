@@ -1,6 +1,7 @@
 package com.speed.hotpatch.libs;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,5 +31,17 @@ public interface SpeedBaseInterface {
     void onBackPressed();
 
     void onSaveInstanceState(Bundle outState);
+
+    void onRestoreInstanceState(Bundle savedInstanceState);
+
+    void onPostCreate(Bundle savedInstanceState);
+
+    void onPostResume();
+
+    void onConfigurationChanged(Configuration newConfig);
+
+    void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
+
+    void onWindowFocusChanged(boolean hasFocus);
 
 }

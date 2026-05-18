@@ -42,7 +42,7 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
     }
 
     @Override
-    public SpeedBaseInterface getBaserProxy(String keyName, String classTag) {
+    public SpeedBaseInterface getBaseProxy(String keyName, String classTag) {
         Class<?> proxy = getProxy(keyName, classTag);
         SpeedBaseInterface o =null;
         try {
@@ -51,6 +51,12 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
             e.printStackTrace();
         }
         return o;
+    }
+
+    @Override
+    @Deprecated
+    public SpeedBaseInterface getBaserProxy(String keyName, String classTag) {
+        return getBaseProxy(keyName, classTag);
     }
 
     @Override
