@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HostProject</string>
+    <string name="host_title">Speed Tools 插件化 Demo（宿主）</string>
+    <string name="host_desc">流程：1) 自动加载 assets 中插件 APK  2) 点击按钮进入插件页面</string>
+    <string name="host_loading">当前是宿主 APK\n正在加载插件 APK...</string>
+    <string name="host_open_first">打开插件一（module_client_one）</string>
+    <string name="host_open_second">打开插件二（module_client_two）</string>
 </resources>
