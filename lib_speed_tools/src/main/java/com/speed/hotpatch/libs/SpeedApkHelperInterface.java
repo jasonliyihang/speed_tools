@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 
-import dalvik.system.DexClassLoader;
-
 /**
  *  by liyihang
  */
@@ -17,7 +15,7 @@ public interface SpeedApkHelperInterface {
 
     PackageInfo getPackageInfo();
 
-    DexClassLoader getDexClassLoader();
+    ClassLoader getDexClassLoader();
 
     Resources getResources();
 

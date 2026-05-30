@@ -1,9 +1,9 @@
 package com.speed.hotpatch.libs;
 
 import android.content.Context;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.util.AttributeSet;
 import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.lang.reflect.Constructor;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  *  by liyihang
  */
-public class SpeedLayoutInflaterFactory implements LayoutInflaterFactory {
+public class SpeedLayoutInflaterFactory implements LayoutInflater.Factory2 {
 
     private HashMap<String, Constructor<? extends View>> sConstructorMap = new HashMap<>();
     private Class<?>[] mConstructorSignature = new Class[]{Context.class, AttributeSet.class};
@@ -25,6 +25,15 @@ public class SpeedLayoutInflaterFactory implements LayoutInflaterFactory {
 
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
+        return createPluginView(name, context, attrs);
+    }
+
+    @Override
+    public View onCreateView(String name, Context context, AttributeSet attrs) {
+        return createPluginView(name, context, attrs);
+    }
+
+    private View createPluginView(String name, Context context, AttributeSet attrs) {
         if (name.equals("view")) {
             name = attrs.getAttributeValue(null, "class");
         }

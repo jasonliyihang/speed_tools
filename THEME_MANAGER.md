@@ -180,7 +180,7 @@ black_theme  黑色 皮肤工程
 
 ```
 
-package com.liyihang.jason.theme_dome;
+package com.liyihang.jason.theme_demo;
 
 import android.os.Bundle;
 import android.view.View;

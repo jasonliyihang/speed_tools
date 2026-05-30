@@ -3,16 +3,15 @@ package com.speed.hotpatch.libs;
 import android.content.Context;
 
 /**
- *  by liyihang
+ * Singleton registry of loaded plugin APK helpers.
  */
-public class SpeedApkManager {
+public final class SpeedApkManager {
 
-    private static volatile SpeedApkManager instance = null;
-    private SpeedApkManagerInterface apkManagerInterface;
+    private static volatile SpeedApkManager instance;
+    private final SpeedApkManagerInterfaceImp apkManager;
 
     private SpeedApkManager() {
-        apkManagerInterface = (SpeedApkManagerInterface) new SpeedInvocationHandler().bind(SpeedApkManagerInterface.class);
-        apkManagerInterface.init();
+        apkManager = new SpeedApkManagerInterfaceImp();
     }
 
     public static SpeedApkManager getInstance() {
@@ -26,13 +25,15 @@ public class SpeedApkManager {
         return instance;
     }
 
-    public void loadApk(String keyName, String apkPath, String dexOutPath, Context context) {
-        apkManagerInterface.load(keyName,apkPath,dexOutPath,context);
+    public boolean loadApk(String keyName, String apkPath, String dexOutPath, Context context) {
+        return apkManager.load(keyName, apkPath, dexOutPath, context);
     }
 
     public SpeedApkHelper getHelper(String keyName) {
-        return apkManagerInterface.get(keyName);
+        return apkManager.get(keyName);
     }
 
-
+    public boolean isLoaded(String keyName) {
+        return apkManager.get(keyName) != null;
+    }
 }

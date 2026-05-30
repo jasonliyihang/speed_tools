@@ -3,59 +3,67 @@ package com.speed.hotpatch.libs;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.example.speedfragmenthotpatch.R;
 
-import dalvik.system.DexClassLoader;
-
 /**
- *  by liyihang
+ * Loads dex/resources for one plugin APK path.
  */
 public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
 
-    public static final String TAG ="SpeedApkHelper";
+    private static final String TAG = "SpeedApkHelper";
 
     private String apkPath;
-    private Context ctx;
-
-    private Drawable appIcon;
-    private String apkName;
-
     private PackageInfo packageInfo;
-    private DexClassLoader dexClassLoader;
+    private ClassLoader dexClassLoader;
     private Resources resources;
     private Resources.Theme theme;
-
 
     @Override
     public void init(String apkPath, String dexOutPath, Context context) {
         this.apkPath = apkPath;
-        this.ctx = context;
+        Context appContext = context.getApplicationContext();
 
-        packageInfo = SpeedUtils.getPackageInfo(context,apkPath);
+        packageInfo = SpeedUtils.getPackageInfo(appContext, apkPath);
+        resources = SpeedUtils.createResourcesFromApk(appContext, apkPath);
+        dexClassLoader = SpeedUtils.readDexFile(appContext, apkPath, dexOutPath);
 
-        appIcon = SpeedUtils.getAppIcon(context, apkPath);
-        apkName = (String) SpeedUtils.getAppLabel(context, apkPath);
+        if (resources != null) {
+            theme = resources.newTheme();
+            theme.applyStyle(R.style.SpeedTheme, false);
+        }
+    }
 
-        resources= SpeedUtils.readApkRes(context,apkPath);
-        this.theme = resources.newTheme();
-        this.theme.applyStyle(R.style.SpeedTheme,false);
-        dexClassLoader= SpeedUtils.readDexFile(context,apkPath,dexOutPath);
+    public boolean isValid() {
+        return packageInfo != null
+                && packageInfo.applicationInfo != null
+                && dexClassLoader != null
+                && resources != null
+                && theme != null;
     }
 
     @Override
     public Class<?> getClassById(String keyName) {
-        Class<?> aClass =null;
-        try {
-            String string = packageInfo.applicationInfo.metaData.getString(keyName);
-            aClass = dexClassLoader.loadClass(string);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(TAG,""+e.getMessage());
+        if (!isValid()) {
+            Log.e(TAG, "getClassById: helper not valid, apkPath=" + apkPath);
+            return null;
         }
-        return aClass;
+        if (packageInfo.applicationInfo.metaData == null) {
+            Log.e(TAG, "getClassById: metaData is null, apkPath=" + apkPath);
+            return null;
+        }
+        try {
+            String className = packageInfo.applicationInfo.metaData.getString(keyName);
+            if (className == null || className.isEmpty()) {
+                Log.e(TAG, "getClassById: no meta-data for key=" + keyName);
+                return null;
+            }
+            return dexClassLoader.loadClass(className);
+        } catch (Exception e) {
+            Log.e(TAG, "getClassById failed key=" + keyName, e);
+            return null;
+        }
     }
 
     @Override
@@ -64,7 +72,7 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
     }
 
     @Override
-    public DexClassLoader getDexClassLoader() {
+    public ClassLoader getDexClassLoader() {
         return dexClassLoader;
     }
 
@@ -77,6 +85,4 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
     public Resources.Theme getTheme() {
         return theme;
     }
-
-
 }

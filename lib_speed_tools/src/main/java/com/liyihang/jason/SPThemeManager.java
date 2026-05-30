@@ -3,31 +3,30 @@ package com.liyihang.jason;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.LayoutInflaterCompat;
 
 import com.speed.hotpatch.libs.SpeedUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SPThemeManager {
 
-    private static SPThemeManager manager=null;
+    private static volatile SPThemeManager manager;
 
     public static SPThemeManager getInstance() {
-        synchronized (SPThemeManager.class) {
-            if (manager==null) {
-                manager=new SPThemeManager();
+        if (manager == null) {
+            synchronized (SPThemeManager.class) {
+                if (manager == null) {
+                    manager = new SPThemeManager();
+                }
             }
         }
         return manager;
@@ -54,7 +53,7 @@ public class SPThemeManager {
     private Context context;
     private String packageName;
 
-    private List<SPThemeFactory> updateUIListeners=new ArrayList<>();
+    private final List<SPThemeFactory> updateUIListeners = new ArrayList<>();
 
 
     public void registerUpdateUI(AppCompatActivity delegate, ArrayList<SPThemeEnum> enums, LayoutInflater.Factory2 factory2, String pre, String fontPre) {
@@ -140,11 +139,16 @@ public class SPThemeManager {
             defaultTheme(context);
         }else {
             File file = moveApkToAppPath(context, tname);
-            if (file==null) {
+            if (file == null) {
                 defaultTheme(context);
-            }else{
-                packageName=getPackageInfo(context, file.getAbsolutePath()).packageName;
-                mResources=getApkResources(context, file.getAbsolutePath());
+            } else {
+                PackageInfo info = getPackageInfo(context, file.getAbsolutePath());
+                if (info == null) {
+                    defaultTheme(context);
+                    return this;
+                }
+                packageName = info.packageName;
+                mResources = getApkResources(context, file.getAbsolutePath());
                 SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, tname).apply();
                 msg("changeTheme select=="+tname);
             }
@@ -160,46 +164,12 @@ public class SPThemeManager {
     }
 
 
-    public static File moveApkToAppPath(Context context, String name){
-        File file=null;
-        try {
-            InputStream open = context.getAssets().open(name);
-            File my_cache = context.getDir("skin_theme", Context.MODE_PRIVATE);
-            file = new File(my_cache.getAbsolutePath()+'/' + name);
-            if (file.exists()) {
-                file.delete();
-            }
-            FileOutputStream fileOutputStream=new FileOutputStream(file);
-            int len=-1;
-            byte[] arr=new byte[1024];
-            while ( (len=open.read(arr))!=-1 )
-            {
-                fileOutputStream.write(arr,0,len);
-            }
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            open.close();
-        } catch (Exception e) {
-            file=null;
-            msg("moveApkToAppPath err=="+e.getMessage());
-            e.printStackTrace();
-        }
-        return file;
+    public static File moveApkToAppPath(Context context, String name) {
+        return SpeedUtils.copyAssetToCache(context, name, "skin_theme");
     }
 
-    public static Resources getApkResources(Context context, String apkPath){
-        Resources resources1=null;
-        try {
-            AssetManager assetManager=AssetManager.class.newInstance();
-            Method addAssetPath = assetManager.getClass().getDeclaredMethod("addAssetPath", String.class);
-            addAssetPath.invoke(assetManager, apkPath);
-            Resources resources = context.getResources();
-            resources1 = new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
-        } catch (Exception e) {
-            msg("getApkResources err=="+e.getMessage());
-            e.printStackTrace();
-        }
-        return resources1;
+    public static Resources getApkResources(Context context, String apkPath) {
+        return SpeedUtils.createResourcesFromApk(context, apkPath);
     }
 
     public static int getResId(Resources resources, String resName, String defType, String packageName){
@@ -207,16 +177,7 @@ public class SPThemeManager {
     }
 
     public static PackageInfo getPackageInfo(Context context, String apkFilepath) {
-        PackageManager pm = context.getPackageManager();
-        PackageInfo pkgInfo = null;
-        try {
-            pkgInfo = pm.getPackageArchiveInfo(apkFilepath, PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES | PackageManager.GET_META_DATA);
-            msg("package=="+pkgInfo.packageName+"==path==="+apkFilepath);
-        } catch (Exception e) {
-            e.printStackTrace();
-            msg(""+e.getMessage());
-        }
-        return pkgInfo;
+        return SpeedUtils.getPackageInfo(context, apkFilepath);
     }
 
     public int rid(String rid, String type){
@@ -230,7 +191,7 @@ public class SPThemeManager {
     public int color(String rid){
         try {
             int resId = getResId( mResources, rid, RES_COLOR, packageName);
-            return mResources.getColor(resId);
+            return mResources.getColor(resId, null);
         }catch (Exception e){
             e.printStackTrace();
             return 0;
@@ -248,7 +209,7 @@ public class SPThemeManager {
             {
                 resId=getResId( mResources, rid, RES_MIPMAP, packageName);
             }
-            return mResources.getDrawable(resId);
+            return mResources.getDrawable(resId, null);
         }catch (Exception e){
             e.printStackTrace();
             return null;

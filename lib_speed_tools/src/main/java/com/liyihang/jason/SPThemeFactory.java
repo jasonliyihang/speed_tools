@@ -1,9 +1,9 @@
 package com.liyihang.jason;
 
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.collection.ArrayMap;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.LayoutInflater;

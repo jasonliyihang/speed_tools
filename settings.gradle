@@ -1,1 +1,25 @@
-include ':module_client_one', ':lib_speed_tools', ':module_host_main', ':module_client_two', ':lib_img_utils', ':theme_dome', ':black_theme'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'speed_tools'
+
+include ':module_client_one',
+        ':lib_speed_tools',
+        ':module_host_main',
+        ':module_client_two',
+        ':lib_img_utils',
+        ':theme_demo',
+        ':black_theme'

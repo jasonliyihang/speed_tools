@@ -6,49 +6,47 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 
 /**
- *  by liyihang
+ * Bridges host Activity to loaded plugin resources and proxy instances.
  */
 public class SpeedHostActivityHelper {
 
-    SpeedHostBaseActivityInterface hostBaseActivityInterface;
+    private final SpeedHostBaseActivityInterfaceImp hostDelegate = new SpeedHostBaseActivityInterfaceImp();
 
     public SpeedHostActivityHelper(Activity activity) {
-        hostBaseActivityInterface= (SpeedHostBaseActivityInterface) new SpeedInvocationHandler().bind(SpeedHostBaseActivityInterface.class);
-        hostBaseActivityInterface.init(activity);
+        hostDelegate.init(activity);
     }
 
-    public boolean isInit(){
-        return hostBaseActivityInterface.isInit();
+    public boolean isInit() {
+        return hostDelegate.isInit();
     }
 
-    public SpeedBaseInterface getBaseProxy(String keyName, String classTag){
-        return hostBaseActivityInterface.getBaseProxy(keyName, classTag);
+    public SpeedBaseInterface getBaseProxy(String keyName, String classTag) {
+        return hostDelegate.getBaseProxy(keyName, classTag);
     }
 
+    /** @deprecated Use {@link #getBaseProxy(String, String)}. */
     @Deprecated
-    public SpeedBaseInterface getBaserProxy(String keyName, String classTag){
+    public SpeedBaseInterface getBaserProxy(String keyName, String classTag) {
         return getBaseProxy(keyName, classTag);
     }
 
-    public Resources getResources(){
-        return hostBaseActivityInterface.getResources();
+    public Resources getResources() {
+        return hostDelegate.getResources();
     }
 
     public AssetManager getAssets() {
-        return hostBaseActivityInterface.getAssets();
+        return hostDelegate.getAssets();
     }
 
     public ClassLoader getClassLoader() {
-        return hostBaseActivityInterface.getClassLoader();
+        return hostDelegate.getClassLoader();
     }
 
-    public Resources.Theme getTheme(){
-        return hostBaseActivityInterface.getTheme();
+    public Resources.Theme getTheme() {
+        return hostDelegate.getTheme();
     }
 
-    public PackageInfo getPackageInfo(){
-        return hostBaseActivityInterface.getPackageInfo();
+    public PackageInfo getPackageInfo() {
+        return hostDelegate.getPackageInfo();
     }
-
-
 }

@@ -7,26 +7,28 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- *  by liyihang
+ * @deprecated Use direct *InterfaceImp instances instead of dynamic proxies.
+ *             Kept for binary compatibility with older integrations.
  */
+@Deprecated
 public class SpeedInvocationHandler implements InvocationHandler {
 
-    public static final String tag="SpeedInvocationHandler";
-    private Object obj;
+    private static final String TAG = "SpeedInvocationHandler";
+    private Object delegate;
 
-    public Object bind(Class<?> name){
-        Log.i(tag, "interface name="+name);
-        obj = SpeedUtils.getObj(name.getName(), getClass().getClassLoader());
-        return Proxy.newProxyInstance(obj.getClass().getClassLoader(),obj.getClass().getInterfaces(),this);
+    public Object bind(Class<?> interfaceClass) {
+        delegate = SpeedUtils.getObj(interfaceClass.getName(), getClass().getClassLoader());
+        if (delegate == null) {
+            throw new IllegalStateException("Cannot bind proxy for " + interfaceClass.getName());
+        }
+        return Proxy.newProxyInstance(
+                delegate.getClass().getClassLoader(),
+                delegate.getClass().getInterfaces(),
+                this);
     }
-
 
     @Override
-    public Object invoke(Object o, Method method, Object[] objects) throws Throwable {
-        Log.i(tag, "method name=="+ method.getName());
-        Object invoke = method.invoke(obj, objects);
-        return invoke;
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return method.invoke(delegate, args);
     }
-
-
 }

@@ -9,7 +9,7 @@ public interface SpeedApkManagerInterface {
 
     void init();
 
-    void load(String keyName, String apkPath, String dexOutPath, Context context);
+    boolean load(String keyName, String apkPath, String dexOutPath, Context context);
 
     SpeedApkHelper get(String keyName);
 

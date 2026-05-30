@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.clientdome">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/SpeedTheme">
 
-        <!--必须设置root_class-->
         <meta-data
             android:name="root_class"
             android:value="com.example.clientdome.TestClass" />
@@ -23,18 +21,20 @@
 
         <activity
             android:name=".ClientMainActivity"
+            android:exported="true"
             android:theme="@style/SpeedTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!--组件意图-->
             <intent-filter>
-                <data android:scheme="speed_tools" android:host="jason.com" android:path="/find_class"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="jason.com"
+                    android:path="/find_class"
+                    android:scheme="speed_tools" />
             </intent-filter>
         </activity>
     </application>
