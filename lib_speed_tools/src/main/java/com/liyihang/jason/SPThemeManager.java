@@ -192,7 +192,7 @@ public class SPThemeManager {
     public int color(String rid){
         try {
             int resId = getResId( mResources, rid, RES_COLOR, packageName);
-            return ResourcesCompat.getColor(mResources, resId, context.getTheme());
+            return ResourcesCompat.getColor(mResources, resId, null);
         }catch (Exception e){
             e.printStackTrace();
             return 0;
