@@ -122,20 +122,23 @@ public final class SpeedUtils {
     }
 
     /**
-     * Resolves a plugin APK: external dir first, then assets cache.
+     * Resolves a plugin APK: assets cache first, then external dir.
      */
     public static File resolvePluginApk(Context context, String externalDir, String assetFileName) {
-        File external = getNativeApkPathByDir(externalDir, assetFileName);
-        if (external != null) {
-            return external;
+        File asset = copyAssetToCache(context, assetFileName, "my_cache");
+        if (asset != null) {
+            return asset;
         }
-        return copyAssetToCache(context, assetFileName, "my_cache");
+        return getNativeApkPathByDir(externalDir, assetFileName);
     }
 
     public static Resources readApkRes(Context context, String apkPath) {
         return createResourcesFromApk(context, apkPath);
     }
 
+    /**
+     * Creates resources from an APK path. Callers must provide only trusted APK files.
+     */
     public static Resources createResourcesFromApk(Context context, String apkPath) {
         if (context == null || apkPath == null) {
             return null;

@@ -1,8 +1,11 @@
 package com.speed.hotpatch.libs;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,6 +31,11 @@ public class SpeedApkManagerInterfaceImp implements SpeedApkManagerInterface {
         }
         try {
             Context appContext = context.getApplicationContext();
+            if (!isPrivateStoragePath(appContext, apkPath)
+                    && !SpeedApkSignatureVerifier.isSignedByHost(appContext, apkPath)) {
+                Log.e(TAG, "load refused: APK is outside private storage and is not host-signed: " + apkPath);
+                return false;
+            }
             SpeedApkHelper helper = new SpeedApkHelper(apkPath, dexOutPath, appContext);
             if (!helper.isValid()) {
                 Log.e(TAG, "load failed validation key=" + keyName + " path=" + apkPath);
@@ -37,6 +45,23 @@ public class SpeedApkManagerInterfaceImp implements SpeedApkManagerInterface {
             return true;
         } catch (Exception e) {
             Log.e(TAG, "load failed key=" + keyName, e);
+            return false;
+        }
+    }
+
+    private static boolean isPrivateStoragePath(Context context, String apkPath) {
+        try {
+            File dataDir = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                    ? context.getDataDir()
+                    : new File(context.getApplicationInfo().dataDir);
+            File canonicalDataDir = dataDir.getCanonicalFile();
+            File canonicalApkPath = new File(apkPath).getCanonicalFile();
+            String dataPath = canonicalDataDir.getPath();
+            String apkPathValue = canonicalApkPath.getPath();
+            return apkPathValue.equals(dataPath)
+                    || apkPathValue.startsWith(dataPath + File.separator);
+        } catch (IOException | NullPointerException e) {
+            Log.w(TAG, "Unable to canonicalize APK path, treating it as external: " + apkPath, e);
             return false;
         }
     }
