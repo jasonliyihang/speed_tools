@@ -2,9 +2,9 @@ package com.speed.hotpatch.libs;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.net.Uri;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,16 +49,17 @@ public abstract class SpeedHostBaseActivity extends AppCompatActivity {
 
     private void readIntentParams() {
         Intent intent = getIntent();
-        boolean trustedReferrer = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        boolean trustedIntent = SpeedConfig.matchesInProcessToken(
+                intent.getStringExtra(SpeedConfig.IN_PROCESS_TOKEN_EXTRA));
+        if (!trustedIntent && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             Uri referrer = getReferrer();
             if (referrer != null) {
                 String packageName = getPackageName();
-                trustedReferrer = packageName.equals(referrer.getAuthority())
+                trustedIntent = packageName.equals(referrer.getAuthority())
                         || packageName.equals(referrer.getHost());
             }
         }
-        if (trustedReferrer) {
+        if (trustedIntent) {
             apkName = intent.getStringExtra(SpeedConfig.APK_NAME);
             classTag = intent.getStringExtra(SpeedConfig.CLASS_TAG);
         } else {

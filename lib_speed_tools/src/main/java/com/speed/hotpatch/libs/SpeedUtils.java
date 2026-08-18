@@ -63,6 +63,7 @@ public final class SpeedUtils {
         intent.setPackage(activity.getPackageName());
         intent.putExtra(SpeedConfig.APK_NAME, apkName);
         intent.putExtra(SpeedConfig.CLASS_TAG, className);
+        intent.putExtra(SpeedConfig.IN_PROCESS_TOKEN_EXTRA, SpeedConfig.getInProcessToken());
         activity.startActivity(intent);
     }
 
