@@ -17,13 +17,8 @@ public abstract class SpeedProxyBaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (resolveProxyBeforeSuper()) {
-            proxyClass = resolveProxy();
-        }
+        proxyClass = resolveProxy();
         super.onCreate(savedInstanceState);
-        if (!resolveProxyBeforeSuper()) {
-            proxyClass = resolveProxy();
-        }
         if (proxyClass == null) {
             Log.e(getProxyFailureTag(), getProxyFailureLogMessage());
             Toast.makeText(this, getProxyFailureMessage(), Toast.LENGTH_LONG).show();
@@ -33,15 +28,15 @@ public abstract class SpeedProxyBaseActivity extends AppCompatActivity {
         SpeedProxyLifecycle.onCreate(proxyClass, savedInstanceState, this);
     }
 
-    protected boolean resolveProxyBeforeSuper() {
-        return false;
-    }
-
     protected abstract SpeedBaseInterface resolveProxy();
 
-    protected abstract String getProxyFailureTag();
+    protected String getProxyFailureTag() {
+        return "SpeedProxyBaseActivity";
+    }
 
-    protected abstract String getProxyFailureLogMessage();
+    protected String getProxyFailureLogMessage() {
+        return "Plugin proxy is null";
+    }
 
     protected abstract String getProxyFailureMessage();
 

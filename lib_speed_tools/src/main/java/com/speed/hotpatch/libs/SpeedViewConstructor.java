@@ -15,7 +15,6 @@ public final class SpeedViewConstructor {
 
     private final Map<String, Constructor<? extends View>> constructorMap = new HashMap<>();
     private final ClassLoader classLoader;
-    private final Object[] constructorArgs = new Object[2];
 
     public SpeedViewConstructor(ClassLoader classLoader) {
         this.classLoader = classLoader;
@@ -29,25 +28,19 @@ public final class SpeedViewConstructor {
     }
 
     public View createView(Context context, String name, String prefix, AttributeSet attrs)
-            throws Exception {
+            throws ReflectiveOperationException {
         String resolvedName = resolveName(name, attrs);
         String className = prefix == null ? resolvedName : prefix + resolvedName;
         Constructor<? extends View> constructor = constructorMap.get(className);
-        try {
-            if (constructor == null) {
-                ClassLoader loader = classLoader == null ? context.getClassLoader() : classLoader;
-                Class<? extends View> clazz = loader.loadClass(className).asSubclass(View.class);
-                constructor = clazz.getConstructor(CONSTRUCTOR_SIGNATURE);
-                constructorMap.put(className, constructor);
-            }
-            constructor.setAccessible(true);
-            constructorArgs[0] = context;
-            constructorArgs[1] = attrs;
-            return constructor.newInstance(constructorArgs);
-        } finally {
-            constructorArgs[0] = null;
-            constructorArgs[1] = null;
+        if (constructor == null) {
+            ClassLoader loader = classLoader == null ? context.getClassLoader() : classLoader;
+            Class<? extends View> clazz = loader.loadClass(className).asSubclass(View.class);
+            constructor = clazz.getConstructor(CONSTRUCTOR_SIGNATURE);
+            constructorMap.put(className, constructor);
         }
+        constructor.setAccessible(true);
+        Object[] constructorArgs = new Object[]{context, attrs};
+        return constructor.newInstance(constructorArgs);
     }
 
     public ClassLoader getClassLoader() {

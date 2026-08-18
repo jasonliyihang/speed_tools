@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.LayoutInflaterCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.speed.hotpatch.libs.SpeedUtils;
 import com.speed.hotpatch.libs.SpeedLog;
@@ -191,7 +192,7 @@ public class SPThemeManager {
     public int color(String rid){
         try {
             int resId = getResId( mResources, rid, RES_COLOR, packageName);
-            return mResources.getColor(resId);
+            return ResourcesCompat.getColor(mResources, resId, context.getTheme());
         }catch (Exception e){
             e.printStackTrace();
             return 0;

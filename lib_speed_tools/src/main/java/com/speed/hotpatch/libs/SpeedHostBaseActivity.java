@@ -29,11 +29,6 @@ public abstract class SpeedHostBaseActivity extends SpeedProxyBaseActivity {
     }
 
     @Override
-    protected boolean resolveProxyBeforeSuper() {
-        return true;
-    }
-
-    @Override
     protected String getProxyFailureTag() {
         return TAG;
     }

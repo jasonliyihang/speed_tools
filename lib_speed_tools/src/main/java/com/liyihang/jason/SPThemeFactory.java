@@ -70,17 +70,17 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
         delegate = null;
     }
 
-    private static final SpeedViewConstructor viewConstructor = new SpeedViewConstructor(null);
+    private static final SpeedViewConstructor VIEW_CONSTRUCTOR = new SpeedViewConstructor(null);
 
     private View createViewFromTag(Context context, String name, AttributeSet attrs) {
         try {
-            name = viewConstructor.resolveName(name, attrs);
+            name = VIEW_CONSTRUCTOR.resolveName(name, attrs);
 
             if (-1 == name.indexOf('.')) {
                 // try the android.widget prefix first...
-                return viewConstructor.createView(context, name, "android.widget.", attrs);
+                return VIEW_CONSTRUCTOR.createView(context, name, "android.widget.", attrs);
             } else {
-                return viewConstructor.createView(context, name, null, attrs);
+                return VIEW_CONSTRUCTOR.createView(context, name, null, attrs);
             }
         } catch (Exception e) {
             // We do not want to catch these, lets return null and let the actual LayoutInflater

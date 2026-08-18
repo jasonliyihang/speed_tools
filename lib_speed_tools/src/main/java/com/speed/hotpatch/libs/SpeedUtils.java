@@ -1,5 +1,6 @@
 package com.speed.hotpatch.libs;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -227,17 +228,18 @@ public final class SpeedUtils {
 
     /**
      * Creates a ClassLoader for the given APK.
-     * <p>On Android 8.1+ (API 27) uses {@link InMemoryDexClassLoader} to avoid
+     * <p>On Android 8.0+ (API 26) uses {@link InMemoryDexClassLoader} to avoid
      * Android 14+ restrictions on loading writable dex files. On older devices
      * falls back to {@link DexClassLoader}.
      */
+    @SuppressLint("NewApi")
     public static ClassLoader readDexFile(Context context, String apkPath, String dexOutKey) {
         if (context == null || apkPath == null || dexOutKey == null) {
             return null;
         }
         Context appContext = context.getApplicationContext();
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ByteBuffer[] dexBuffers = extractDexBuffersFromApk(apkPath);
                 if (dexBuffers.length == 0) {
                     Log.e(TAG, "No dex files found in apk: " + apkPath);
