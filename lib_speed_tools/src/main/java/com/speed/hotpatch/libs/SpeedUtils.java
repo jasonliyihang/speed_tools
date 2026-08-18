@@ -42,7 +42,7 @@ public final class SpeedUtils {
     }
 
     public static void msg(String tag, String msg) {
-        Log.i(tag, msg);
+        SpeedLog.msg(tag, msg);
     }
 
     public static SharedPreferences getSharedPreferences(Context context) {
@@ -227,7 +227,7 @@ public final class SpeedUtils {
 
     /**
      * Creates a ClassLoader for the given APK.
-     * <p>On Android 8.0+ (API 26) uses {@link InMemoryDexClassLoader} to avoid
+     * <p>On Android 8.1+ (API 27) uses {@link InMemoryDexClassLoader} to avoid
      * Android 14+ restrictions on loading writable dex files. On older devices
      * falls back to {@link DexClassLoader}.
      */
@@ -237,7 +237,7 @@ public final class SpeedUtils {
         }
         Context appContext = context.getApplicationContext();
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                 ByteBuffer[] dexBuffers = extractDexBuffersFromApk(apkPath);
                 if (dexBuffers.length == 0) {
                     Log.e(TAG, "No dex files found in apk: " + apkPath);

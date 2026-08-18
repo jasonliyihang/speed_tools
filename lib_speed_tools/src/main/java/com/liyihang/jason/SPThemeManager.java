@@ -5,13 +5,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.LayoutInflaterCompat;
 
 import com.speed.hotpatch.libs.SpeedUtils;
+import com.speed.hotpatch.libs.SpeedLog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -123,7 +123,7 @@ public class SPThemeManager {
     }
 
     public static void msg(String msg){
-        Log.i(SPThemeManager.class.getSimpleName(), msg);
+        SpeedLog.msg(SPThemeManager.class.getSimpleName(), msg);
     }
 
     public Resources getResources() {
@@ -191,7 +191,7 @@ public class SPThemeManager {
     public int color(String rid){
         try {
             int resId = getResId( mResources, rid, RES_COLOR, packageName);
-            return mResources.getColor(resId, null);
+            return mResources.getColor(resId);
         }catch (Exception e){
             e.printStackTrace();
             return 0;

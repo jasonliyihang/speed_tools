@@ -43,16 +43,7 @@ public class SpeedHostBaseActivityInterfaceImp implements SpeedHostBaseActivityI
         if (proxyClass == null) {
             return null;
         }
-        try {
-            Object instance = proxyClass.getDeclaredConstructor().newInstance();
-            if (instance instanceof SpeedBaseInterface) {
-                return (SpeedBaseInterface) instance;
-            }
-            Log.e(TAG, proxyClass.getName() + " does not implement SpeedBaseInterface");
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to instantiate " + proxyClass.getName(), e);
-        }
-        return null;
+        return SpeedPluginProxyFactory.createFromClass(proxyClass, TAG);
     }
 
     @Override

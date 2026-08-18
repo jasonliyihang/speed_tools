@@ -12,13 +12,8 @@ public class SPSrcEnum extends SPThemeEnum {
 
     @Override
     protected void use(View view, String name) {
-            try {
-                Drawable drawable = SPThemeManager.getInstance().drawable(name);
-                if (drawable == null) return;
-                ((ImageView) view).setImageDrawable(drawable);
-            }catch (Exception e){
-                msg("SPThemeEnum use err===="+e.getMessage());
-                e.printStackTrace();
-            }
+        Drawable drawable = SPThemeManager.getInstance().drawable(name);
+        if (drawable == null) return;
+        ((ImageView) view).setImageDrawable(drawable);
     }
 }

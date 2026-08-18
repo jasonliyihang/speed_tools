@@ -3,17 +3,15 @@ package com.liyihang.jason;
 import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.collection.ArrayMap;
 import android.util.AttributeSet;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.speed.hotpatch.libs.SpeedViewConstructor;
+
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SPThemeFactory implements LayoutInflater.Factory2 {
 
@@ -72,53 +70,18 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
         delegate = null;
     }
 
-    private static final Map<String, Constructor<? extends View>> sConstructorMap
-            = new ArrayMap<>();
-    static final Class<?>[] sConstructorSignature = new Class[]{
-            Context.class, AttributeSet.class};
-    private final Object[] mConstructorArgs = new Object[2];
+    private static final SpeedViewConstructor viewConstructor = new SpeedViewConstructor(null);
 
     private View createViewFromTag(Context context, String name, AttributeSet attrs) {
-        if (name.equals("view")) {
-            name = attrs.getAttributeValue(null, "class");
-        }
-
         try {
-            mConstructorArgs[0] = context;
-            mConstructorArgs[1] = attrs;
+            name = viewConstructor.resolveName(name, attrs);
 
             if (-1 == name.indexOf('.')) {
                 // try the android.widget prefix first...
-                return createView(context, name, "android.widget.");
+                return viewConstructor.createView(context, name, "android.widget.", attrs);
             } else {
-                return createView(context, name, null);
+                return viewConstructor.createView(context, name, null, attrs);
             }
-        } catch (Exception e) {
-            // We do not want to catch these, lets return null and let the actual LayoutInflater
-            // try
-            return null;
-        } finally {
-            // Don't retain references on context.
-            mConstructorArgs[0] = null;
-            mConstructorArgs[1] = null;
-        }
-    }
-
-    private View createView(Context context, String name, String prefix)
-            throws ClassNotFoundException, InflateException {
-        Constructor<? extends View> constructor = sConstructorMap.get(name);
-
-        try {
-            if (constructor == null) {
-                // Class not found in the cache, see if it's real, and try to add it
-                Class<? extends View> clazz = context.getClassLoader().loadClass(
-                        prefix != null ? (prefix + name) : name).asSubclass(View.class);
-
-                constructor = clazz.getConstructor(sConstructorSignature);
-                sConstructorMap.put(name, constructor);
-            }
-            constructor.setAccessible(true);
-            return constructor.newInstance(mConstructorArgs);
         } catch (Exception e) {
             // We do not want to catch these, lets return null and let the actual LayoutInflater
             // try
@@ -151,20 +114,14 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
         info = new SPFontInfo();
         List<SPThemeAttr> themeAttrs = getThemeAttrs(name, attrs, context);
         if (info.isExist) {
-            view = delegate.createView(parent, name, context, attrs);
-            if (view == null) {
-                view = createViewFromTag(context, name, attrs);
-            }
+            view = createView(parent, name, context, attrs);
             info.viewWeakReference = new WeakReference<>(view);
             infos.add(info);
             info.use();
         }
         if (!themeAttrs.isEmpty()) {
             if (!info.isExist) {
-                view = delegate.createView(parent, name, context, attrs);
-                if (view == null) {
-                    view = createViewFromTag(context, name, attrs);
-                }
+                view = createView(parent, name, context, attrs);
             }
             if (view != null) {
                 SPThemeView cxThemeView = new SPThemeView(view, themeAttrs);
@@ -175,42 +132,50 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
         return view;
     }
 
+    private View createView(View parent, String name, Context context, AttributeSet attrs) {
+        View view = delegate.createView(parent, name, context, attrs);
+        if (view == null) {
+            view = createViewFromTag(context, name, attrs);
+        }
+        return view;
+    }
+
     public List<SPThemeAttr> getThemeAttrs(String name, AttributeSet attrs, Context context) {
         List<SPThemeAttr> skinAttrs = new ArrayList<>();
         for (int i = 0; i < attrs.getAttributeCount(); i++) {
             String attrName = attrs.getAttributeName(i);
             String attrValue = attrs.getAttributeValue(i);
             if ("textSize".equals(attrName)) {
-                if (attrValue.startsWith("@")) {
-                    int id = Integer.parseInt(attrValue.substring(1));
-                    try {
-                        String entryName = context.getResources().getResourceEntryName(id);
-                        if (entryName.startsWith(PRE_FONT) && !info.isExist) {
-                            info.isExist = true;
-                            info.attrName = entryName;
-                        }
-                    } catch (Exception e) {
-                        SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
-                        e.printStackTrace();
-                    }
+                String entryName = getResourceEntryName(attrName, attrValue, name, context);
+                if (entryName != null && entryName.startsWith(PRE_FONT) && !info.isExist) {
+                    info.isExist = true;
+                    info.attrName = entryName;
                 }
             }
             SPThemeEnum attrType = getSupprotAttrType(attrName);
             if (attrType == null) continue;
-            if (attrValue.startsWith("@")) {
-                int id = Integer.parseInt(attrValue.substring(1));
-                try {
-                    String entryName = context.getResources().getResourceEntryName(id);
-                    if (entryName.startsWith(PRE)) {
-                        skinAttrs.add(new SPThemeAttr(entryName, attrType));
-                    }
-                } catch (Exception e) {
-                    SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
-                    e.printStackTrace();
-                }
+            String entryName = getResourceEntryName(attrName, attrValue, name, context);
+            if (entryName != null && entryName.startsWith(PRE)) {
+                skinAttrs.add(new SPThemeAttr(entryName, attrType));
             }
         }
         return skinAttrs;
+    }
+
+    private String getResourceEntryName(
+            String attrName, String attrValue, String name, Context context) {
+        if (!attrValue.startsWith("@")) {
+            return null;
+        }
+        int id = Integer.parseInt(attrValue.substring(1));
+        try {
+            return context.getResources().getResourceEntryName(id);
+        } catch (Exception e) {
+            SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--"
+                    + attrValue + "--err--" + e.getMessage() + "---name---" + name);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private SPThemeEnum getSupprotAttrType(String attrName) {

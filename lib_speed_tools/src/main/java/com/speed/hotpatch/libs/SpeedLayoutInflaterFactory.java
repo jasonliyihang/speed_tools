@@ -6,18 +6,13 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-
 /**
  *  by liyihang
  */
 public class SpeedLayoutInflaterFactory implements LayoutInflater.Factory2 {
 
-    private HashMap<String, Constructor<? extends View>> sConstructorMap = new HashMap<>();
-    private Class<?>[] mConstructorSignature = new Class[]{Context.class, AttributeSet.class};
-    private Object[] mConstructorArgs = new Object[2];
     private SpeedHostActivityHelper hostActivityHelper;
+    private SpeedViewConstructor viewConstructor;
 
     public void setHostActivityHelper(SpeedHostActivityHelper hostActivityHelper) {
         this.hostActivityHelper = hostActivityHelper;
@@ -34,34 +29,20 @@ public class SpeedLayoutInflaterFactory implements LayoutInflater.Factory2 {
     }
 
     private View createPluginView(String name, Context context, AttributeSet attrs) {
-        if (name.equals("view")) {
-            name = attrs.getAttributeValue(null, "class");
+        ClassLoader loader = context.getClassLoader();
+        if (hostActivityHelper != null && hostActivityHelper.isInit()) {
+            loader = hostActivityHelper.getClassLoader();
         }
+        if (viewConstructor == null || viewConstructor.getClassLoader() != loader) {
+            viewConstructor = new SpeedViewConstructor(loader);
+        }
+        name = viewConstructor.resolveName(name, attrs);
         //如果没有'.'，说明是Android系统控件，直接返回null，让系统自己createView
         if (-1 == name.indexOf('.')) {
             return null;
         }
-        Context lastContext = (Context) mConstructorArgs[0];
-        mConstructorArgs[0] = context;
-        Class<? extends View> clazz = null;
-        //先从本地缓存读取
-        Constructor<? extends View> constructor = sConstructorMap.get(name);
         try {
-            if (constructor == null) {
-                //没有缓存，根据类名创建Constructor对象存入缓存
-                // Class not found in the cache, see if it's real, and try to add it
-                ClassLoader loader=context.getClassLoader();
-                if (hostActivityHelper != null && hostActivityHelper.isInit()) {
-                    loader=hostActivityHelper.getClassLoader();
-                }
-                clazz = loader.loadClass(name).asSubclass(View.class);
-                constructor = clazz.getConstructor(mConstructorSignature);
-                sConstructorMap.put(name, constructor);
-            }
-            Object[] args = mConstructorArgs;
-            args[1] = attrs;
-            constructor.setAccessible(true);
-            return constructor.newInstance(args);
+            return viewConstructor.createView(context, name, null, attrs);
         } catch (NoSuchMethodException e) {
             InflateException ie = new InflateException(attrs.getPositionDescription()
                     + ": Error inflating class " + name);
@@ -81,12 +62,9 @@ public class SpeedLayoutInflaterFactory implements LayoutInflater.Factory2 {
             throw ie;
         } catch (Exception e) {
             InflateException ie = new InflateException(attrs.getPositionDescription()
-                    + ": Error inflating class " + (clazz == null ? "<unknown>" : clazz.getName()));
+                    + ": Error inflating class " + name);
             ie.initCause(e);
             throw ie;
-        } finally {
-            mConstructorArgs[0] = lastContext;
-            mConstructorArgs[1] = null;
         }
     }
 }

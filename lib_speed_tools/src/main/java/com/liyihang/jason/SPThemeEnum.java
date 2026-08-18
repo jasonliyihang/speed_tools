@@ -1,7 +1,8 @@
 package com.liyihang.jason;
 
-import android.util.Log;
 import android.view.View;
+
+import com.speed.hotpatch.libs.SpeedLog;
 
 public abstract class SPThemeEnum {
 
@@ -15,10 +16,19 @@ public abstract class SPThemeEnum {
         return type;
     }
 
+    protected final void apply(View view, String name) {
+        try {
+            use(view, name);
+        } catch (Exception e) {
+            msg("SPThemeEnum use err====" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     protected abstract void use(View view, String name);
 
-    public static void msg(String msg){
-        Log.i("theme_enum", msg);
+    public static void msg(String msg) {
+        SpeedLog.msg("theme_enum", msg);
     }
 
 }

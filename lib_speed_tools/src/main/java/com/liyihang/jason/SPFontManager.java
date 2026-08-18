@@ -1,8 +1,8 @@
 package com.liyihang.jason;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.speed.hotpatch.libs.SpeedLog;
 import com.speed.hotpatch.libs.SpeedUtils;
 
 public class SPFontManager {
@@ -37,7 +37,7 @@ public class SPFontManager {
     }
 
     private void msg(String msg){
-        Log.i(getClass().getSimpleName(), msg);
+        SpeedLog.msg(getClass().getSimpleName(), msg);
     }
 
     public SPFontManager changeConfig(float s){

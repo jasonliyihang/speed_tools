@@ -53,17 +53,8 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
             Log.e(TAG, "getClassById: metaData is null, apkPath=" + apkPath);
             return null;
         }
-        try {
-            String className = packageInfo.applicationInfo.metaData.getString(keyName);
-            if (className == null || className.isEmpty()) {
-                Log.e(TAG, "getClassById: no meta-data for key=" + keyName);
-                return null;
-            }
-            return dexClassLoader.loadClass(className);
-        } catch (Exception e) {
-            Log.e(TAG, "getClassById failed key=" + keyName, e);
-            return null;
-        }
+        return SpeedPluginProxyFactory.getClassByMetaData(
+                packageInfo, dexClassLoader, keyName, TAG);
     }
 
     @Override

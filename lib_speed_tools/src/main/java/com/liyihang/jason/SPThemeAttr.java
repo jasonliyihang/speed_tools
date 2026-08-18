@@ -13,7 +13,7 @@ public class SPThemeAttr {
 
 
     public void use(View view){
-        themeEnum.use(view, mName);
+        themeEnum.apply(view, mName);
     }
 
 }

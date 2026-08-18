@@ -19,6 +19,26 @@ final class SpeedPluginProxyFactory {
             PackageInfo packageInfo,
             ClassLoader classLoader,
             String metaDataKey) {
+        return createFromMetaData(packageInfo, classLoader, metaDataKey, TAG);
+    }
+
+    static SpeedBaseInterface createFromMetaData(
+            PackageInfo packageInfo,
+            ClassLoader classLoader,
+            String metaDataKey,
+            String logTag) {
+        Class<?> proxyClass = getClassByMetaData(packageInfo, classLoader, metaDataKey, logTag);
+        if (proxyClass == null) {
+            return null;
+        }
+        return createFromClass(proxyClass, logTag);
+    }
+
+    static Class<?> getClassByMetaData(
+            PackageInfo packageInfo,
+            ClassLoader classLoader,
+            String metaDataKey,
+            String logTag) {
         if (packageInfo == null || packageInfo.applicationInfo == null || classLoader == null) {
             return null;
         }
@@ -27,23 +47,31 @@ final class SpeedPluginProxyFactory {
         }
         ApplicationInfo appInfo = packageInfo.applicationInfo;
         if (appInfo.metaData == null) {
-            Log.e(TAG, "metaData is null for " + packageInfo.packageName);
+            Log.e(logTag, "metaData is null for " + packageInfo.packageName);
             return null;
         }
         try {
             String className = appInfo.metaData.getString(metaDataKey);
             if (className == null || className.isEmpty()) {
-                Log.e(TAG, "No meta-data entry: " + metaDataKey);
+                Log.e(logTag, "No meta-data entry: " + metaDataKey);
                 return null;
             }
-            Class<?> clazz = classLoader.loadClass(className);
-            Object instance = clazz.getDeclaredConstructor().newInstance();
+            return classLoader.loadClass(className);
+        } catch (Exception e) {
+            Log.e(logTag, "Failed to load proxy for key=" + metaDataKey, e);
+        }
+        return null;
+    }
+
+    static SpeedBaseInterface createFromClass(Class<?> proxyClass, String logTag) {
+        try {
+            Object instance = proxyClass.getDeclaredConstructor().newInstance();
             if (instance instanceof SpeedBaseInterface) {
                 return (SpeedBaseInterface) instance;
             }
-            Log.e(TAG, className + " does not implement SpeedBaseInterface");
+            Log.e(logTag, proxyClass.getName() + " does not implement SpeedBaseInterface");
         } catch (Exception e) {
-            Log.e(TAG, "Failed to create proxy for key=" + metaDataKey, e);
+            Log.e(logTag, "Failed to instantiate " + proxyClass.getName(), e);
         }
         return null;
     }
