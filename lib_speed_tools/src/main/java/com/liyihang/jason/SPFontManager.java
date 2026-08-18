@@ -30,6 +30,9 @@ public class SPFontManager {
     }
 
     public SPFontManager init(Context context){
+        if (context == null) {
+            throw new IllegalArgumentException("context must not be null");
+        }
         this.context=context;
         fontScale = SpeedUtils.getSharedPreferences(context).getFloat(KEY_NAME, 0);
         msg("SPFontManager init fontScale=="+fontScale);
@@ -41,6 +44,7 @@ public class SPFontManager {
     }
 
     public SPFontManager changeConfig(float s){
+        requireInit("changeConfig");
         this.fontScale=s;
         SpeedUtils.getSharedPreferences(context).edit().putFloat(KEY_NAME, s).apply();
         msg("SPFontManager changeConfig fontScale=="+fontScale);
@@ -53,7 +57,14 @@ public class SPFontManager {
     }
 
     public String getS(int rid){
+        requireInit("getString");
         return context.getResources().getString(rid);
+    }
+
+    private void requireInit(String operation) {
+        if (context == null) {
+            throw new IllegalStateException(operation + " called before SPFontManager.init(Context)");
+        }
     }
 
     public static String getString(int rid){

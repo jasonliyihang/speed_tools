@@ -1,10 +1,12 @@
 package com.liyihang.jason;
 
 import android.content.Context;
+import android.content.res.Resources;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.collection.ArrayMap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SPThemeFactory implements LayoutInflater.Factory2 {
+
+    private static final String TAG = "SPThemeFactory";
 
     public String PRE = "cxt_";
     public String PRE_FONT = "cxf_";
@@ -56,10 +60,18 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
 
     public void updateUI() {
         for (SPThemeView view : views) {
-            view.use();
+            try {
+                view.use();
+            } catch (RuntimeException e) {
+                Log.e(TAG, "updateUI failed for a themed view", e);
+            }
         }
         for (SPFontInfo fontView : infos) {
-            fontView.use();
+            try {
+                fontView.use();
+            } catch (RuntimeException e) {
+                Log.e(TAG, "updateUI failed for font attr " + fontView.attrName, e);
+            }
         }
     }
 
@@ -94,8 +106,8 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
                 return createView(context, name, null);
             }
         } catch (Exception e) {
-            // We do not want to catch these, lets return null and let the actual LayoutInflater
-            // try
+            // Not fatal: returning null lets the real LayoutInflater try again.
+            Log.d(TAG, "createViewFromTag fell back to LayoutInflater for " + name, e);
             return null;
         } finally {
             // Don't retain references on context.
@@ -120,8 +132,8 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
             constructor.setAccessible(true);
             return constructor.newInstance(mConstructorArgs);
         } catch (Exception e) {
-            // We do not want to catch these, lets return null and let the actual LayoutInflater
-            // try
+            // Not fatal: returning null lets the real LayoutInflater try again.
+            Log.d(TAG, "createView fell back to LayoutInflater for " + name, e);
             return null;
         }
     }
@@ -147,6 +159,10 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
     }
 
     private View handleView(View parent, String name, Context context, AttributeSet attrs) {
+        if (delegate == null) {
+            Log.w(TAG, "factory already released, cannot inflate " + name);
+            return null;
+        }
         View view = null;
         info = new SPFontInfo();
         List<SPThemeAttr> themeAttrs = getThemeAttrs(name, attrs, context);
@@ -181,36 +197,47 @@ public class SPThemeFactory implements LayoutInflater.Factory2 {
             String attrName = attrs.getAttributeName(i);
             String attrValue = attrs.getAttributeValue(i);
             if ("textSize".equals(attrName)) {
-                if (attrValue.startsWith("@")) {
-                    int id = Integer.parseInt(attrValue.substring(1));
-                    try {
-                        String entryName = context.getResources().getResourceEntryName(id);
-                        if (entryName.startsWith(PRE_FONT) && !info.isExist) {
-                            info.isExist = true;
-                            info.attrName = entryName;
-                        }
-                    } catch (Exception e) {
-                        SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
-                        e.printStackTrace();
-                    }
+                String entryName = resolveEntryName(context, name, attrName, attrValue);
+                if (entryName != null && entryName.startsWith(PRE_FONT) && !info.isExist) {
+                    info.isExist = true;
+                    info.attrName = entryName;
                 }
             }
             SPThemeEnum attrType = getSupprotAttrType(attrName);
             if (attrType == null) continue;
-            if (attrValue.startsWith("@")) {
-                int id = Integer.parseInt(attrValue.substring(1));
-                try {
-                    String entryName = context.getResources().getResourceEntryName(id);
-                    if (entryName.startsWith(PRE)) {
-                        skinAttrs.add(new SPThemeAttr(entryName, attrType));
-                    }
-                } catch (Exception e) {
-                    SPThemeEnum.msg("getThemeAttrs error attrName--" + attrName + "--attrValue--" + attrValue + "--err--" + e.getMessage() + "---name---" + name);
-                    e.printStackTrace();
-                }
+            String entryName = resolveEntryName(context, name, attrName, attrValue);
+            if (entryName != null && entryName.startsWith(PRE)) {
+                skinAttrs.add(new SPThemeAttr(entryName, attrType));
             }
         }
         return skinAttrs;
+    }
+
+    /**
+     * Resolves the resource entry name behind an {@code @<id>} attribute value.
+     *
+     * @return the entry name, or {@code null} when the value is not a resource reference or the
+     *         id cannot be resolved; unresolvable ids are logged instead of aborting inflation.
+     */
+    private String resolveEntryName(Context context, String viewName, String attrName, String attrValue) {
+        if (attrValue == null || !attrValue.startsWith("@")) {
+            return null;
+        }
+        int id;
+        try {
+            id = Integer.parseInt(attrValue.substring(1));
+        } catch (NumberFormatException e) {
+            Log.w(TAG, "non-numeric resource reference " + attrName + "=" + attrValue
+                    + " on <" + viewName + ">", e);
+            return null;
+        }
+        try {
+            return context.getResources().getResourceEntryName(id);
+        } catch (Resources.NotFoundException e) {
+            Log.w(TAG, "unknown resource id for " + attrName + "=" + attrValue
+                    + " on <" + viewName + ">", e);
+            return null;
+        }
     }
 
     private SPThemeEnum getSupprotAttrType(String attrName) {

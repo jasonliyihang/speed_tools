@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 
 public class SPToastUtils {
+
+    private static final String TAG = "SPToastUtils";
 
     private static SPToastUtils manager = null;
 
@@ -41,7 +44,27 @@ public class SPToastUtils {
     private Object synObject = new Object();
 
     public void showToastByThread(String msg) {
-        showToastByThread(contextWeakReference.get(), msg, Toast.LENGTH_LONG);
+        Context context = getInitContext("showToastByThread");
+        if (context == null) {
+            return;
+        }
+        showToastByThread(context, msg, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * @return the context passed to {@link #init(Context)}, or {@code null} when it was never
+     *         provided or has been garbage collected; both cases are logged.
+     */
+    private Context getInitContext(String operation) {
+        if (contextWeakReference == null) {
+            Log.e(TAG, operation + " called before init(Context)");
+            return null;
+        }
+        Context context = contextWeakReference.get();
+        if (context == null) {
+            Log.w(TAG, operation + ": init context has been released, dropping toast");
+        }
+        return context;
     }
 
     public void showToastByThread(Context context, int msg) {
@@ -101,7 +124,11 @@ public class SPToastUtils {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                showToastByTime(contextWeakReference.get(), msg);
+                Context context = getInitContext("showToastByTime");
+                if (context == null) {
+                    return;
+                }
+                showToastByTime(context, msg);
             }
         });
     }
@@ -151,8 +178,17 @@ public class SPToastUtils {
     }
 
     public void cancelToast() {
-        if (mTextView != null && mTextView.getParent() != null) {
+        if (mTextView == null || mTextView.getParent() == null) {
+            return;
+        }
+        if (mWindowManager == null) {
+            Log.e(TAG, "cancelToast: no WindowManager, showToastByWindow was never called");
+            return;
+        }
+        try {
             mWindowManager.removeView(mTextView);
+        } catch (IllegalArgumentException e) {
+            Log.w(TAG, "cancelToast: view already removed", e);
         }
     }
 

@@ -19,6 +19,11 @@ import java.util.List;
 
 public class SPThemeManager {
 
+    private static final String TAG = "SPThemeManager";
+
+    /** Returned by {@link #color(String)} when the resource cannot be resolved. */
+    public static final int COLOR_UNRESOLVED = 0;
+
     private static volatile SPThemeManager manager;
 
     public static SPThemeManager getInstance() {
@@ -103,8 +108,16 @@ public class SPThemeManager {
 
     public SPThemeManager sendUpdateUIAction(){
         for (SPThemeFactory updateUIListener : updateUIListeners) {
-            updateUIListener.getUpdateUIListener().updateUI(false);
-            updateUIListener.updateUI();
+            SPUpdateUIListener listener = updateUIListener.getUpdateUIListener();
+            try {
+                if (listener != null) {
+                    listener.updateUI(false);
+                }
+                updateUIListener.updateUI();
+            } catch (RuntimeException e) {
+                Log.e(TAG, "sendUpdateUIAction failed for listener="
+                        + (listener == null ? "<null>" : listener.getClass().getName()), e);
+            }
         }
         return this;
     }
@@ -115,6 +128,9 @@ public class SPThemeManager {
     }
 
     public SPThemeManager init(Context context) {
+        if (context == null) {
+            throw new IllegalArgumentException("context must not be null");
+        }
         this.context=context;
         String tname = SpeedUtils.getSharedPreferences(context).getString(THEME_KEY_NAME, DEFAULT_THEMES);
         msg("init theme config name=="+tname);
@@ -131,28 +147,46 @@ public class SPThemeManager {
     }
 
     public boolean isDefaultTheme(){
-        return context.getResources()==mResources;
+        return context != null && context.getResources()==mResources;
     }
 
+    /**
+     * Applies the skin APK named {@code tname}, falling back to the host theme when the
+     * skin cannot be copied, parsed or opened. Every fallback is logged with its cause.
+     */
     public SPThemeManager changeTheme(String tname){
-        if (tname.equals(DEFAULT_THEMES)){
-            defaultTheme(context);
-        }else {
-            File file = moveApkToAppPath(context, tname);
-            if (file == null) {
-                defaultTheme(context);
-            } else {
-                PackageInfo info = getPackageInfo(context, file.getAbsolutePath());
-                if (info == null) {
-                    defaultTheme(context);
-                    return this;
-                }
-                packageName = info.packageName;
-                mResources = getApkResources(context, file.getAbsolutePath());
-                SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, tname).apply();
-                msg("changeTheme select=="+tname);
-            }
+        if (context == null) {
+            throw new IllegalStateException("init(Context) must be called before changeTheme");
         }
+        if (tname == null || DEFAULT_THEMES.equals(tname)) {
+            if (tname == null) {
+                Log.e(TAG, "changeTheme called with null name, using " + DEFAULT_THEMES);
+            }
+            defaultTheme(context);
+            return this;
+        }
+        File file = moveApkToAppPath(context, tname);
+        if (file == null) {
+            Log.e(TAG, "changeTheme: skin asset not available: " + tname);
+            defaultTheme(context);
+            return this;
+        }
+        PackageInfo info = getPackageInfo(context, file.getAbsolutePath());
+        if (info == null) {
+            Log.e(TAG, "changeTheme: cannot parse skin apk: " + file.getAbsolutePath());
+            defaultTheme(context);
+            return this;
+        }
+        Resources skinResources = getApkResources(context, file.getAbsolutePath());
+        if (skinResources == null) {
+            Log.e(TAG, "changeTheme: cannot open skin resources: " + file.getAbsolutePath());
+            defaultTheme(context);
+            return this;
+        }
+        packageName = info.packageName;
+        mResources = skinResources;
+        SpeedUtils.getSharedPreferences(context).edit().putString(THEME_KEY_NAME, tname).apply();
+        msg("changeTheme select=="+tname);
         return this;
     }
 
@@ -181,6 +215,9 @@ public class SPThemeManager {
     }
 
     public int rid(String rid, String type){
+        if (!isReady("rid", rid)) {
+            return 0;
+        }
         return getResId(mResources, rid, type, packageName);
     }
 
@@ -188,13 +225,24 @@ public class SPThemeManager {
         return rid(SpeedUtils.getNameByRid(context, rid), type);
     }
 
+    /**
+     * @return the themed color, or {@link #COLOR_UNRESOLVED} when the name is missing from the
+     *         current theme; the reason is always logged.
+     */
     public int color(String rid){
+        if (!isReady("color", rid)) {
+            return COLOR_UNRESOLVED;
+        }
+        int resId = getResId(mResources, rid, RES_COLOR, packageName);
+        if (resId == 0) {
+            Log.w(TAG, "color not found in theme " + packageName + ": " + rid);
+            return COLOR_UNRESOLVED;
+        }
         try {
-            int resId = getResId( mResources, rid, RES_COLOR, packageName);
             return mResources.getColor(resId, null);
-        }catch (Exception e){
-            e.printStackTrace();
-            return 0;
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "color lookup failed for " + rid + " in " + packageName, e);
+            return COLOR_UNRESOLVED;
         }
     }
 
@@ -202,22 +250,45 @@ public class SPThemeManager {
         return color(SpeedUtils.getNameByRid(context, rid));
     }
 
+    /**
+     * @return the themed drawable, or {@code null} when the name is missing from the current
+     *         theme; the reason is always logged.
+     */
     public Drawable drawable(String rid){
+        if (!isReady("drawable", rid)) {
+            return null;
+        }
+        int resId = getResId(mResources, rid, RES_DRABLE, packageName);
+        if (resId==0)
+        {
+            resId=getResId( mResources, rid, RES_MIPMAP, packageName);
+        }
+        if (resId == 0) {
+            Log.w(TAG, "drawable not found in theme " + packageName + ": " + rid);
+            return null;
+        }
         try {
-            int resId = getResId( mResources, rid, RES_DRABLE, packageName);
-            if (resId==0)
-            {
-                resId=getResId( mResources, rid, RES_MIPMAP, packageName);
-            }
             return mResources.getDrawable(resId, null);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "drawable lookup failed for " + rid + " in " + packageName, e);
             return null;
         }
     }
 
     public Drawable drawable(int rid){
         return drawable(SpeedUtils.getNameByRid(context, rid));
+    }
+
+    private boolean isReady(String operation, String resName) {
+        if (mResources == null || packageName == null) {
+            Log.e(TAG, operation + "(" + resName + ") called before init(Context)");
+            return false;
+        }
+        if (resName == null) {
+            Log.e(TAG, operation + " called with null resource name");
+            return false;
+        }
+        return true;
     }
 
 

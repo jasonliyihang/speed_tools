@@ -33,6 +33,13 @@ public class SpeedApkHelperInterfaceImp implements SpeedApkHelperInterface {
             theme = resources.newTheme();
             theme.applyStyle(R.style.SpeedTheme, false);
         }
+        if (!isValid()) {
+            Log.e(TAG, "init incomplete for " + apkPath
+                    + ": packageInfo=" + (packageInfo != null)
+                    + ", applicationInfo=" + (packageInfo != null && packageInfo.applicationInfo != null)
+                    + ", dexClassLoader=" + (dexClassLoader != null)
+                    + ", resources=" + (resources != null));
+        }
     }
 
     public boolean isValid() {

@@ -6,8 +6,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class SPConfig {
+
+    private static final String TAG = "SPConfig";
 
     public static final String SDCARD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -58,20 +61,40 @@ public class SPConfig {
 
     @SuppressLint({"HardwareIds", "MissingPermission"})
     public static void initConfig(Context context) {
-        // devices id
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if(manager.getDeviceId() == null || manager.getDeviceId().equals("")) {
-            if (Build.VERSION.SDK_INT >= 23) {
-                devices_id = manager.getDeviceId(0);
-            }
-        }else{
-            devices_id = manager.getDeviceId();
+        devices_id = readTelephonyDeviceId(context);
+        if (devices_id == null) {
+            devices_id = Settings.Secure.getString(
+                    context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         }
-        if (devices_id ==null)
-        {
-            devices_id = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (devices_id == null) {
+            Log.e(TAG, "initConfig: no device id available");
         }
+    }
 
+    /**
+     * @return the telephony device id, or {@code null} when unavailable (no telephony service,
+     *         missing permission, or Android 10+ where the API is restricted).
+     */
+    @SuppressLint({"HardwareIds", "MissingPermission"})
+    private static String readTelephonyDeviceId(Context context) {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (manager == null) {
+            Log.w(TAG, "initConfig: telephony service unavailable");
+            return null;
+        }
+        try {
+            String deviceId = manager.getDeviceId();
+            if (deviceId == null || deviceId.isEmpty()) {
+                deviceId = Build.VERSION.SDK_INT >= 23 ? manager.getDeviceId(0) : null;
+            }
+            return deviceId == null || deviceId.isEmpty() ? null : deviceId;
+        } catch (SecurityException e) {
+            Log.w(TAG, "initConfig: READ_PHONE_STATE not granted, falling back to ANDROID_ID", e);
+            return null;
+        } catch (UnsupportedOperationException e) {
+            Log.w(TAG, "initConfig: device id not readable on this platform", e);
+            return null;
+        }
     }
 
     public static final String url_id_login ="user_login";

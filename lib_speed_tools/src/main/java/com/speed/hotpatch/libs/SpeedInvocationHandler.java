@@ -3,6 +3,7 @@ package com.speed.hotpatch.libs;
 import android.util.Log;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -29,6 +30,13 @@ public class SpeedInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return method.invoke(delegate, args);
+        try {
+            return method.invoke(delegate, args);
+        } catch (InvocationTargetException e) {
+            // Rethrow what the delegate actually threw instead of the reflection wrapper.
+            Throwable cause = e.getCause();
+            Log.e(TAG, "invoke failed: " + method.getName(), cause != null ? cause : e);
+            throw cause != null ? cause : e;
+        }
     }
 }
