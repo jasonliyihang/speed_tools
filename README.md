@@ -11,6 +11,10 @@
   <img src="https://img.shields.io/badge/AndroidX-Yes-success" alt="AndroidX">
 </p>
 
+<p align="center">
+  <b>中文</b> · <a href="README_EN.md">English</a>
+</p>
+
 > **设计目标**：低侵入接入、多业务解耦、避免 Google Play 动态交付依赖。
 > 
 > **接入方式**：当前推荐 **源码依赖**，不再推荐旧 Maven 坐标 `com.liyihangjson:speed_tools:1.1.1`。
